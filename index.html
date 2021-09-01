@@ -1,0 +1,473 @@
+<!DOCTYPE html><html>
+<head>
+	<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SciFi Alchemy</title>
+	<script src="elements.js"></script>
+	<script src="alchemy.js"></script>
+	<script src="music.js"></script>
+	<script src="svg.js"></script>
+	<script>
+		var ingredients=[];
+		var discoveries=[];
+		var pantry=[];
+		var lastrand=-1;
+		var sound=true;
+		function t(f,s,d) {setTimeout(function(){n(f,d)},s);}
+		pl=song=>{if(sound)for(var j=0;j<song.length;j++)for(var i=1;i<song[j].length;i+=2)t(song[j][i],song[j][i+1],song[j][0])}
+		function store(discoveredElements) {
+			localStorage.setItem('discoveries', discoveredElements);
+		}
+		function toggleFullScreen() {
+			var doc = window.document;
+			var docEl = doc.documentElement;
+
+			var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+			var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+			if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+				requestFullScreen.call(docEl);
+				document.getElementById('fullscreenbutton').innerText='WINDOWED';
+			}
+			else {
+				cancelFullScreen.call(doc);
+				document.getElementById('fullscreenbutton').innerText='FULL SCREEN';
+			}
+		}
+		function scrollUp(){
+			document.getElementById('pantry').scrollTop -= 400;
+		}
+		function scrollDown(){
+			document.getElementById('pantry').scrollTop += 400;
+		}
+		function score(){
+			var score = 0;
+			for (var e=0;e<discoveries.length;e++){
+				if (discoveries[e]) score++;
+			}
+			document.getElementById('score').innerText = score;
+			document.getElementById('max').innerText = discoveries.length;
+		}
+		function closeModal(){
+			modal.style.display="none";
+		}
+		function closeCollection(){
+			collection.style.display="none";
+		}
+		function clearForge(){
+			var forgeElements = document.getElementById('forge').getElementsByTagName('img');
+			var count = forgeElements.length;
+			for (var f=0; f<count; f++) forgeElements[0].remove();
+		}
+		function goHome(){
+			home.style.display="block";
+		}
+		function goColl(){
+			collection.style.display="block";
+		}
+		function play(){
+			finalize();
+			score();
+			home.style.display="none";
+			document.getElementById('playbutton').innerText = 'CONTINUE';
+		}
+		function toggleSound(){
+			if (sound) {
+				document.getElementById('soundbutton').innerText = 'SOUND OFF';
+				sound = false;
+			} else {
+				document.getElementById('soundbutton').innerText = 'SOUND ON';
+				sound = true;
+			}
+		}
+		function newgame(){
+			localStorage.clear();
+			discoveries = [];
+			clearForge();
+			play();
+		}
+	</script>
+	<style>
+		body {
+			margin:0px;
+			font-family:sans-serif;
+			font-size:10px;
+		}
+		button {
+			background-color:#fff;
+			border:none;
+		}
+		#forge {
+			width:100%;
+			height:200px;
+			min-height:200px;
+			background-color:#eee;
+			color:#f9f9f9;
+			text-align:center;
+			font-family:sans-serif;
+			font-size:50px;
+			grid-row-start:2;
+			grid-row-end:3;
+		}
+		#pantry {
+			grid-column-start:2;
+			grid-column-end:6;
+			grid-row-start:1;
+			grid-row-end:2;
+			float:right;
+			overflow: auto;
+			min-width:100%;
+			min-height:2000px;
+			text-align:left;
+		}
+		.pantryIngredient, .ingredient {
+			border-radius: 5px;
+			border:2px solid #000;
+			background-color: #fff;
+			max-width:50px;
+			max-height:50px;
+			min-height:50px;
+			min-width:50px;
+		}
+		.ingredient {
+			position: absolute;
+		}
+		.final {
+			border:4px solid #000;
+		}
+		.pantrySlot {
+			max-width:54px;
+			min-height:105px;
+			margin:3px;
+			float:left;
+			text-align:center
+		}
+		.nav {
+			grid-column-start:1;
+			grid-column-end:2;
+			grid-row-start:1;
+			grid-row-end:2;
+			min-height:2000px;
+		}
+		#goFS{
+			min-width:50px;
+			min-height:50px;
+		}
+		#up, #down {
+			min-width:48px;
+			min-height:105px;
+		}
+		.outer {
+			display:grid;
+			grid-gap:0;
+		}
+		.lower {
+			display:grid;
+			grid-gap:0;
+		}
+		.upper {
+			display:grid;
+			grid-gap:0;
+			grid-row-start:1;
+			grid-row-end:2;
+		}
+		#btnhome {
+			grid-column-start:1;
+			grid-column-end:2;
+			text-align:left;
+		}
+		#homebutton, #collectionbutton{
+			font-size:30px;
+		}
+		#title {
+			grid-column-start:2;
+			grid-column-end:4;
+			text-align:center;
+		}
+		#btncollection {
+			text-align:right;
+			grid-column-start:4;
+			grid-column-end:5;
+		}
+		#modal, #collection {
+			display:none;
+			position:fixed;
+			width:100%;
+			height:100%;
+			z-index: 1;
+			left:0;
+			top:0;
+			background-color: rgba(255,255,255,.95);
+			animation-name:animatetop;
+			animation-duration: .4s;
+		}
+		#home {
+			position:fixed;
+			width:100%;
+			height:100%;
+			z-index: 1;
+			left:0;
+			top:0;
+			background-color: #000;
+		}
+		#modalcontent {
+			margin:15% auto;
+			background-color: #fff;
+			border:1px solid #000;
+			border-radius: 10px;
+			width:90%;
+			height:50%;
+			text-align: center;
+			vertical-align: middle;
+		}
+		#homecontent {
+			margin:15% auto;
+			color: #fff;
+			width:90%;
+			height:100%;
+			text-align: center;
+			vertical-align: middle;
+			font-size:32px;
+		}
+		#collectioncontent {
+			margin:15% auto;
+			color: #fff;
+			width:90%;
+			height:100%;
+			text-align: center;
+			vertical-align: middle;
+			font-size:32px;
+		}
+		@keyframes animatetop {
+			from {top: -300px; opacity: 0}
+			to {top: 0; opacity: 1}
+		}
+		#trash{
+			position:relative;
+			top:0;
+			left:0;
+			width:30px;
+			font-size:20px;
+			padding:5px;
+			padding-right:15px;
+			padding-bottom:15px;
+			border-right:1px solid #000;
+			border-bottom:1px solid #000;
+			border-bottom-right-radius: 40px;
+		}
+	</style>
+</head>
+<body>
+<canvas id="ctmp" width="100" height="100" style="display:none"></canvas>
+<div id="home"><div id="homecontent">
+	<h1>SciFi Alchemy</h1>
+	<div id="playbutton">PLAY</div>
+	<div id="newgamebutton">NEW GAME</div>
+	<div id="soundbutton">SOUND ON</div>
+	<div id="fullscreenbutton">FULL SCREEN</div>
+	<div style="font-size:16px"><h3>Instructions:</h3><h4>Combine elements to find science fiction ideas, characters and shows.</h4>Drag elements into the forge area. Place an element on top of another see if they combine. <b>Elements can sometimes combine with themselves!</b></b></div>
+	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com">JS13K Games</a> 2021.</div>
+</div></div>
+<div id="collection"><div id="collectioncontent">
+</div></div>
+<div id="modal"><div id="modalcontent"><h1 id="discovery"></h1><div><img id="discoveryimage" src="" width="100" height="100"></div><h2 id="discoverydesc" style="padding:10%"></h2></div></div>
+<div class="outer">
+	<div class="upper">
+		<div id="btnhome"><button id="homebutton">🏠</button></div>
+		<div id="title"><h1><span id="score">0</span>/<span id="max">0</span> discovered</h1></div>
+		<div id="btncollection"><button id="collectionbutton">🏆</button></div>
+		<!--<div id="screen"><button id="goFS" style="background-image: url('data:image/gif;base64,R0lGODlhMgAyAKIAAAAAAP///4CAgDMzM6SkpMzMzA0NDUBAQCH5BAAHAP8ALAAAAAAyADIAAAO1GLrc/jDKSau9OOvNu1eFcAxkSRIZYZqHUESCAcw0LWRCrRs3dOi63iUHpB0ig5lhdUoxBzLAADmbfqhSrPX6SGYh3i23EdaOu1XzmZwGt9eLsvsLV8jr+Lx+z+/7/4CBgoOEhYaHiImKi4wYd3WPbHSQbw6Ra5dxlXCZdpuYn5qTnKGeo6CnomKkqaZLTCgYKkxRqww/RTNCFkS5RxAxuQC7Fb1APBEhI0+xF7NMLS+N09SFCQA7')"></button></div>-->
+	</div>
+	<div id="forge" class="forge drop move">
+		<div id="trash">🗑️</div>
+	</div>
+	<div class="lower">
+		<div class="nav">
+			<div><button><img id="up" width=30 height="80" src="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' height='100' width='50'%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='9' y1='85' x2='25' y2='17'/%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='41' y1='85' x2='25' y2='17'/%3E%3Ccircle stroke='none' fill='%23000' cx='25' cy='17' r='3'/%3E%3C/svg%3E"></button></div>
+			<div><button style="transform:scaleY(-1)"><img id="down" width=30 height="80" src="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' height='100' width='50'%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='9' y1='85' x2='25' y2='17'/%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='41' y1='85' x2='25' y2='17'/%3E%3Ccircle stroke='none' fill='%23000' cx='25' cy='17' r='3'/%3E%3C/svg%3E"></button></div>
+		</div>
+		<div id="pantry" class="copy">
+			<div style="position:relative;top:5000px">.</div>
+		</div>
+	</div>
+</div>
+<script>
+var modal = document.getElementById('modal');
+var home = document.getElementById('home');
+var ctmp = document.getElementById('ctmp');
+var collection = document.getElementById('collection');
+prepButtons();
+prepSlots();
+prepElements();
+prepIcons();
+goHome();
+//finalize();
+score();
+(D=e=>{
+	pointercancel=e=>{
+		D.n.remove();
+		if (D.g.m) D.g.m.remove();
+	}
+	pointerdown=e=>{
+		e.preventDefault();
+		D.w = 1;
+		D.g = null;
+		D.n = null;
+		if(e.touches){
+			D.g = document.elementFromPoint(
+				e.touches[0].pageX,
+				e.touches[0].pageY
+			);
+		} else {
+			D.g = e.target;
+		}
+		D.scroll = e.target.parentElement.parentElement.scrollTop;
+		if(D.g && D.g.id == 'goFS'){
+			toggleFullScreen();
+		} else if (D.g && D.g.id == 'homebutton') {
+			goHome();
+		} else if (D.g && D.g.id == 'collectionbutton') {
+			goColl();
+		} else if (D.g && D.g.id == 'playbutton') {
+			play();
+		} else if (D.g && D.g.id == 'newgamebutton') {
+			newgame();
+		} else if (D.g && D.g.id == 'up') {
+			scrollUp();
+		} else if (D.g && D.g.id == 'down') {
+			scrollDown();
+		} else if (D.g && D.g.id == 'modalcontent' || (D.g.parentNode && D.g.parentNode.id == 'modalcontent' || D.g.parentNode.parentNode && D.g.parentNode.parentNode.id == 'modalcontent')) {
+			closeModal();
+		} else if (D.g && D.g.id == 'collectioncontent' || (D.g.parentNode && D.g.parentNode.id == 'collectioncontent' || D.g.parentNode.parentNode && D.g.parentNode.parentNode.id == 'collectioncontent')) {
+			closeCollection();
+		} else if (D.g && D.g.id == 'trash') {
+			clearForge();
+		} else if (D.g && D.g.id == 'soundbutton') {
+			toggleSound();
+		} else if (D.g && D.g.id == 'fullscreenbutton') {
+			toggleFullScreen();
+		}
+		while(D.g != document && !D.g.classList.contains("drag")){
+			D.g = D.g.parentNode;
+		}
+		if(D.g == document){
+			D.g = null;
+		}
+		else if(D.g.parentNode.classList.contains("move") || D.g.parentNode.classList.contains("copy")){
+			D.X = e.touches ? e.touches[0].pageX : e.pageX;
+			D.Y = e.touches ? e.touches[0].pageY : e.pageY;
+			D.x = D.X - e.target.offsetLeft;
+			D.y = D.Y - e.target.offsetTop;
+			D.n = document.body.appendChild(D.g.cloneNode(true));
+			D.n.className = D.n.className.replace(/pantryIngredient/,'ingredient');
+			D.n.id = 'i' + ingredients.length++;
+			if(D.g.parentNode.classList.contains("move")){
+				D.g.style.visibility = "hidden";
+				D.g.m = D.g;
+			}
+			D.n.style.position = "absolute";
+			D.n.style.pointerEvents = "none";
+			D.n.style.left = D.X - D.x - 3 + "px";
+			D.n.style.top = D.Y - D.y - 3 + "px";
+		}
+	}
+	pointermove=e=>{
+		e.preventDefault();
+		if(D.w && D.n){
+			D.X = (e.touches ? e.touches[0].pageX : e.pageX);
+			D.Y = (e.touches ? e.touches[0].pageY : e.pageY);
+			D.n.style.left = D.X - D.x - 3 + "px";
+			D.n.style.top = D.Y - D.y - 3 - D.scroll + "px";
+			D.lastX = (e.touches ? e.touches[0].pageX : e.pageX);
+			D.lastY = (e.touches ? e.touches[0].pageY : e.pageY);
+		}
+	}
+
+	pointerup=e=>{
+		e.preventDefault();
+		D.w = 0;
+		if(e.touches && D.X){
+			D.p = document.elementFromPoint(
+				D.X,
+				D.Y
+			);
+		}
+		else {
+			D.p = e.target;
+		}
+		if(D.n){
+			if (D.p.classList.contains("ingredient")){
+				var id1 = D.p.getAttribute('elid');
+				var id2 = D.n.getAttribute('elid');
+				var result = findResult(id1,id2);
+				if (result.length > 0) {
+					imgId = pantry[result[0]];
+					c = document.getElementById('i' + imgId).cloneNode(true);
+					c.style.left = D.lastX - D.x - 3 + "px";
+					c.style.top = D.lastY - D.y - 3 - D.scroll + "px";
+					c.className = 'ingredient drag';
+					c.id = 'i' + (ingredients.length);
+					c.style.display = 'inline';
+					c.style.position = 'absolute';
+					ingredients[ingredients.length] = 'i' + (ingredients.length);
+					document.getElementById('forge').appendChild(c);
+					D.p.remove();
+					D.n.remove();
+					if (D.g.m) D.g.m.remove();
+
+					if (elements[result[0]][4] != 1) {
+						var o = document.getElementById('pantrySlot' + result[0]);
+						o.style.display = 'inline';
+					}
+					if (!discoveries[result[0]]) {
+						//if (!o.childNodes[0].classList.contains('found')) {
+						document.getElementById('discovery').innerText = elements[result[0]][0];
+						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
+						document.getElementById('discoverydesc').innerText = elements[result[0]][3] ? elements[result[0]][3] : '';
+						modal.style.display = 'block';
+						discoveries[result[0]]=true;
+						store(discoveries);
+						if (elements[result[0]][4]){
+							document.getElementById('trophySlot'+result[0]).style.display='inline';
+						}
+						if (result[1] == 'n') {
+							var rand = Math.floor(Math.random()*non.length)
+							while (rand == lastrand) { rand = Math.floor(Math.random()*non.length) }
+							pl(non[rand]);
+							lastrand=rand;
+						} else pl(result[1]);
+					}
+					//o.childNodes[0].className += ' found';
+					score();
+					return;
+				}
+			}
+			while (D.p != document && !D.p.classList.contains("drop")) {
+				D.p = D.p.parentNode;
+			}
+			if (D.p != document) {
+				D.f = D.p.appendChild(D.n.cloneNode(true));
+				D.f.style.position = "absolute";
+				D.f.style.pointerEvents = "";
+				D.X = e.pageX;
+				D.Y = e.pageY;
+				D.f.style.left = D.X - D.x - 3 + "px";
+				D.f.style.top = D.Y - D.y - 3 + "px";
+			}
+			if (D.g.m) {
+				D.g.remove();
+			}
+			D.n.remove();
+		}
+	}
+	addEventListener("touchcancel",pointercancel);
+	addEventListener("mousedown",pointerdown);
+	addEventListener("touchstart",pointerdown, {passive: false});
+	addEventListener("mousemove",pointermove);
+	addEventListener("touchmove",pointermove, {passive: false});
+	addEventListener("mouseup",pointerup);
+	addEventListener("touchend",pointerup);
+})();
+sortSlots();
+</script>
+</body>
+</html>
