@@ -18,18 +18,17 @@ elements[3]=['time','🕒',[]];
 
 elements[4]=['entropy','r08088585FFF00F06;r01339935FFFnon;r33013599FFFnon;i0808929200Fnon06;i9208089200Fnon06;c50501700FFFF','svg','"We adore chaos because we love to produce order." - M C Escher'];
 elements[5]=['opposite','i08509250000non06;i07503324000non06;i07503376000non06;c075003non000;c935003non000;i93506724000non06;i93506776000non06','svg'];
-elements[6]=['atoms','',[]];//nix
+elements[6]=['dark energy',['⬛','🔋','?'],[[-25,90,130],[15,70,70],[25,70,70]],'Okay, it\'s not the <i>opposite</i> of energy, but what the crap is it?'];
 elements[7]=['gravity',['||','🍎'],[[28,20],[16,90,50]],'"Ow!" - Sir Isaac Newton'];
 
 elements[8]=['space','r000099990000;c800402nonFFF;c126202nonFFF;c043201nonFFF;c529401nonFFF;c602001nonFFF;c884802nonFFF;c948001nonFFF;c707001nonFFF','svg','The final frontier.'];
 elements[9]=['time travel',['=','🕒'],[[56,70,80],[-24,70,60]]];
-//elements[10]=['antimatter','e50494017000non;c474207000339;c505407000339;c444907000F22;c104904000000;c564307000F22;c500804000000;c574907000339;e50491741000non;c505045F00non08;i20848321F00non08','svg'];
 elements[10]=['antimatter','e52513314000non;c504506000339;c525506000339;c475106000F22;c185103000000;c574606000F22;c521603000000;c585106000339;e52511434000non;c505045F00non08;i20848321F00non08','svg'];
 elements[11]=['order','⚖️',[]];
 elements[12]=['evil','😈',[]];
 elements[13]=['antigravity',['||','🍎'],[[28,120],[16,50,50]],'The best we can do is so far is magnets. :('];
 
-elements[14]=['energy',['🔋'],[[15,70,70]],'"One-point-twenty-one gigawatts!" - Doc Brown'];
+elements[14]=['energy',['⚡'],[[5,70,70]],'"One-point-twenty-one gigawatts!" - Doc Brown'];
 elements[15]=['life','🧬',[]];
 elements[16]=['conflict',['🤜','🤛'],[[-24,70,60],[42,70,60]]];
 elements[17]=['gas',['☁️'],[[8,70,70]],'Sure, why not.'];
@@ -44,7 +43,7 @@ elements[24]=['liquid','💧',[],'It\'s wet.'];
 elements[25]=['star','☀️',[]];
 
 elements[26]=['primate','🐒',[]];
-elements[27]=['brain','🧠',[]];
+elements[27]=['brain','🧠',[],'Not all brains are intelligent.'];
 elements[28]=['military','p00000001M22,59c-1,26,32,19,69,19;y000000225995599177;c316505000BBB;c437006000BBB;c577006000BBB;c717006000BBB;c857006000BBB;r21497612666000;r59262211666000;r31375812666000;r14304604666000;r03271307666000','svg'];
 elements[29]=['solid','🧊',[]];
 elements[30]=['teleportation',['💫','🌟','🌟'],[[0,100,80],[4,60,40],[24,40,40]]];
@@ -90,7 +89,7 @@ elements[66]=['starship','🚀',[]];
 elements[67]=['Dune','r000099998DFnon;r00559944FFDnon;pFFDCC901M0,55c39-0,71-11,99-0;e81661507000666;pnon66630M81,67c0-22-24-40-53-40;pnon33310M71,67c0-18-20-30-45-30;e28271315non666;e27270910000000;yFFF000272325182918;yFFF000302532213524;yFFF000252420242220;e71670503000333;c867205nonCC9;c747006nonCC9;c926606nonCC9;c676804nonCC9;c867005nonFFD;c746906nonFFD;c926406nonFFD;c666604nonFFD;c807306nonFFD','svg','The spice must flow.',1];
 elements[68]=['youth','👶‍',[]];
 elements[69]=['The Clone Wars','r000099990000;e50883920nonFFF;r14377150FFFnon;e50363229nonFFF;r44001021FFF666;i17448244000non03;y000000497552755860795021504460;y66600052757199719953804880289949755275','svg',1];
-elements[70]=['Stormtrooper','',[],'',1];//nix
+elements[70]=['dark matter','r000099990000;e50494017FFFnon;c474207000339;c505407000339;c444907000F22;c104904000FFF;c564307000F22;c500804000FFF;c574907000339;e50491741FFFnon','svg','Just because we can\'t see it doesn\'t mean it isn\'t there.',1];
 elements[71]=['hate','😡‍',[],'Feel it flow through you.'];
 elements[72]=['Obi Wan','r19588042232000;yEB9DEC336659977161;i33665997DECnon07;i59977161DECnon07;e54452434000EB9;i64757953CCCnon07;i39196518CCCnon07;e55730809CCCnon08;pnon00006M30,99c19-23,3-43,4-52;pnon00006M35,48c-5-25,5-38,28-35;p54300001M99,85C69,58,69,21,60,16c-17-12-37,4-24,46c8,13-5,37-9,37H0V65C26,1,50-5,69,6c15,10,15,39,31,50V85z','svg','SEE ALSO: Ben Kenobi',1];
 elements[73]=['Yoda','r35564231232000;p33200001M37,58l35-12L71,56C57,78,35,58,35,58;e48342024000BB9;e50402322nonBB9;pBB900001M66,21C83,28,88,9,97,18c-13,0-6,14-24,22;pBB900001M28,35C14,37,11,38,2,35C4,44,15,49,30,50;i47505042666non;i59386644666non;i52445943666non;pEFE00001M15,99H99V81c-4,0-9-29-29-27l2,14l-6,16L44,79l-9-23C24,56,5,95,15,99z;pnon66601M32.456,18c2.191-1.266,9.044,0,11.294,6.5;pnon66601M55.125,10.719c0,5.699,0,10.311,0,10.311;pnon66601M45,10C47,12,50,17,49,22','svg','',1];
@@ -106,17 +105,17 @@ elements[81]=['Planet of the Apes',['🌎','🦍'],[[-70,210,180],[4,70]],'',1];
 elements[82]=['car','🚗',[]];
 elements[83]=['robot','🤖',[]];
 elements[84]=['E.T.','r46501749C97000;pA9700001M34,70C20,70,9,83,9,99h85c0-15-10-28-22-28c-4,0-8-7-8-16l-17,2C45,64,40,70,34,70z;pA9700001M63,8c-0-1-17-3-23,1C25,7-2,41,30,48c21,18,33,7,43-3C94,35,86,10,63,8z;pnon00001M39,48c7,3,20,3,25-1;c303208non853;c722708non853;c473202non331;c543202non331;pnon33101M38,51c-2-9,2-17,6-18;pnon33101M57,32c3,0,11,14,8,19;pEDDnon00M37,31c-2,10-14,3-14,1C26,27,34,25,37,31z;pEDDnon00M79,27c-2,10-14,3-14,1C68,23,76,21,79,27z;c31310300099C;c73270300099C;p331non01M22,20c14-1,20,5,25-2C37,15,22,19,22,20z;p33133101M78,17c-7-4-21,1-26,1C59,25,65,15,78,17z','svg','',1];
-elements[85]=['Thor: Ragnarok','⚡',[],'',1];
+elements[85]=['Thor: Ragnarok','i44213312333non04;i44153310FFAnon04;e45423128non333;i35334641000non02;y122non797576747252675670907795;y3330007199669023681469078300850099;pFC900001M48,87c19,13,24-15,24-35c0-1-13-2-30-2c-9,0-17,6-17,14c0,5-1,9-4,9l6,4L32,99h12l6-9;e69670403nonFC9;yCC7non5976577559916591678262826075;y122non29602066176420601442163606042214414941584974557664964991;i40482414FFAnon04;i25150400FFAnon04;e29500506FFAnon;i27432026FFAnon02;i20261019FFAnon02;i28210609FFAnon;pnon00002M74,57c4-28-6-41-30-41;yCC7non59767076707161715775;i46415941000non02;i59417343000non02','svg','Greatest space-gladiator movie ever.',1];
 elements[86]=['cyborg','🦾',[],'Not to be confused with androids.'];
 elements[87]=['Firefly','r000099990000;c800402nonFFF;c126202nonFFF;c043201nonFFF;c529401nonFFF;c602001nonFFF;c884802nonFFF;c948001nonFFF;c707001nonFFF;i0928-124666non05;i14230717666non05;i10370337666non04;c193110000FFB;c233310non777;e30371214000999;y9990003657326036663372267216661159135423542737382851305528662871356640583861457442885099659471726261614757;c333710non999;p00000001M88,50c-18,7,4,16,6,10;pnon00001M36,57111,0','svg','You can\'t take the sky from me. You can take me off the air, however.',1];
 elements[88]=['flying saucer','🛸',[],'How do aliens keep from getting nauseous?'];
-elements[89]=['Worf','',[]];//nix
+elements[89]=['Dark Matter',['🚀','👤'],[[20,50,50],[10,90,60]],'It lasted longer than Firefly...'];
 elements[90]=['Darth Vader','p00000001M79,42C85-4,16-6,21,43C0,92,2,83,25,85c1,3,26,26,48,1C98,85,98,87,79,42z;r48040537000FFF;e40500907FFF000;e62500907FFF000;e49842210000000;r63441010000000;c506403000FFF;i36784762FFFnon;i53626378FFFnon;i63783678FFFnon;i40754078FFFnon02;i43704378FFFnon02;i47784767FFFnon02;i51785168FFFnon02;i56785670FFFnon02;i59785976FFFnon02;pnonFFF01M31,40c6-3,13-0,16,1;pnonFFF01M70,38c-4-2-9-1-15,4;yFFF000316045623870;yFFF000706056626270;pnonFFF02M8,87c0-5,2-9,9-10;pnonFFF02M92,85c0-4-1-7-8-9;r29441010000000;i17762059FFFnon;i85758160FFFnon','svg'];
 
 elements[91]=['android','👤',[],'Not to be confused with cyborgs.'];
 elements[92]=['Death Star','r000099990000;c800402nonFFF;c126202nonFFF;c043201nonFFF;c529401nonFFF;c602001nonFFF;c884802nonFFF;c948001nonFFF;c707001nonFFF;e50504747000999;e69351212000999;pnon33301M2,53c0,0,50,23,94,0;msw','svg','That\'s no moon.'];
 elements[93]=['Cylon',"e51984728000999;p99900001M19,66c0-51,59-64,63,0;r44091138999000;p99900001M40,61L19,66c8,5,7,12,2,27.5l11,3h38.125l9.5-4 C76,81,75,68,81,65.5l-21-4.5H39.75z;r24535108000non;p333CCC01M31,96c0-33,34-46,39,0;i44736073CCCnon01;i61774277CCCnon01;i41826282CCCnon01;i63864086CCCnon01;i39926492CCCnon01;i49566256F33non06;mterm",'svg'];
-elements[94]=['Luke Skywalker','',[]];//nix
+elements[94]=['Babylon 5','p00000001M98,44c0-24-22-44-48-44C24,0,3,20,3,45C20,45,32,36,34,55h37C71,34,82,48,97,44z;y321000999999757273387300850099;e55731712000FF7;e52511826000FDB;e55701408000FCB;i00853873FF7FD604;i71719874FF7non04;i52995582FF7non04;i61827097FF7non04;pnon32101M59,66c0-3-0-7-2-7;pnon32101M43,67c0-4,1-7,2-7;pnon32101M47,60c-0,0,5,3,8,0;pnon32101M42,72c2,4,16,6,20,1','svg','I couldn\'t get over this dude\'s hair.'];
 elements[95]=['Borg','pnon00003M59,13c36,0,43,30,10,54;r33673426FFE000;e49452837000FFE;pnon00003M28,70C3,80-18,49,43,25;i69256936000non;p00000001M69,25c0-2-10-5-24-5c0-6,0-12,0-12c-9-8-40,33-15,62C29,61,40,52,55,52c0-8,6-16,14-16;c414506666FA4;i43685968F47non;pnonF4701M49,60c3,3,5-3,7-0;p00000001M0,94c18,0,33-7,33-15c0,4,24,16,35-1C68,84,82,90,99,91v9V99H0','svg','Resistance is futile.',1];
 elements[96]=['Lost in Space',['🤖','👦'],[[-20,50],[30,90]], '"Danger, Will Robinson!" - Robot',1];
 elements[97]=['Independence Day','r00009999000non;yFF9non714063655258;yFF9non5062396540404959;c415606non999;e47029918666999;i491049737DFnon10;i49084971BEFnon08;i49074970FFFnon03;c575507non999;e49672311666DDD05;r00669933DDDnon;e49852306666666DDD;e49852306nonDDD;r26854514DDDnon;i56585699999non04;i43584399999non04;i67626799999non03;i32623299999non03;i72657299999non02;i26652699999non02','svg','Welcome to Earth!',1];
@@ -134,9 +133,8 @@ var movies=[45,47,57,67,76,79,81,84,85,97,98,100,101];
 var recipes=[
 	{i:[0,3],r:21,m:'n'},
 	{i:[2,3],r:4,m:'n'},
-//	{i:[0,3],r:4,m:'n'},
 	{i:[0,0],r:5,m:'n'},
-//	{i:[2,2],r:6,m:'n'},
+	{i:[5,14],r:6,m:'n'},
 	{i:[2,2],r:17,m:'n'},
 	{i:[0,2],r:7,m:'n'},
 
@@ -146,7 +144,6 @@ var recipes=[
 	{i:[4,5],r:11,m:'n'},
 	{i:[1,5],r:12,m:'n'},
 	{i:[7,5],r:13,m:'n'},
-//	{i:[6,6],r:17,m:'n'},
 
 	{i:[2,4],r:20,m:'n'},
 	{i:[2,10],r:14,m:'n'},
@@ -223,6 +220,7 @@ var recipes=[
 	{i:[55,55],r:69,m:sw},
 	{i:[55,36],r:69,m:sw},
 	{i:[28,55],r:69,m:sw},
+	{i:[2,6],r:70,m:'n'},
 	{i:[5,56],r:71,m:'n'},
 	{i:[34,44],r:72,m:sw},
 	{i:[31,44],r:73,m:sw},
@@ -255,10 +253,13 @@ var recipes=[
 	{i:[43,44],r:90,m:sw},
 
 	{i:[34,83],r:91,m:'n'},
+	{i:[70,91],r:89,m:'n'},
 	{i:[43,80],r:92,m:sw},
 	{i:[12,48],r:93,m:'n'},
 	{i:[12,83],r:93,m:'n'},
 	{i:[48,83],r:93,m:'n'},
+	{i:[31,80],r:94,m:'n'},
+	{i:[28,80],r:94,m:'n'},
 	{i:[66,86],r:95,m:'n'},
 	{i:[12,86],r:95,m:'n'},
 	{i:[68,83],r:96,m:'n'},

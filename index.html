@@ -422,7 +422,7 @@ score();
 						//if (!o.childNodes[0].classList.contains('found')) {
 						document.getElementById('discovery').innerText = elements[result[0]][0];
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
-						document.getElementById('discoverydesc').innerText = elements[result[0]][3] ? elements[result[0]][3] : '';
+						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
 						modal.style.display = 'block';
 						discoveries[result[0]]=true;
 						store(discoveries);
