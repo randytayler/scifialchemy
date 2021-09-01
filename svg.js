@@ -1,4 +1,4 @@
-function svg(x,elid){
+function svg(x,elid) {
 	var shapes = x.split(";");
 	var ret=[];
 	var music;
