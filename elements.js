@@ -16,7 +16,7 @@ elements[1]=['goodness','😇',[]];
 elements[2]=['matter','e50494017000non;c474207000339;c505407000339;c444907000F22;c104904000000;c564307000F22;c500804000000;c574907000339;e50491741000non','svg'];
 elements[3]=['time','🕒',[]];
 
-elements[4]=['entropy','r08088585FFF00F06;r01339935FFFnon;r33013599FFFnon;i0808929200Fnon06;i9208089200Fnon06;c50501700FFFF','svg','"We adore chaos because we love to produce order." - M C Escher'];
+elements[4]=['chaos','r08088585FFF00F06;r01339935FFFnon;r33013599FFFnon;i0808929200Fnon06;i9208089200Fnon06;c50501700FFFF','svg','AKA "entropy"<br><br>"We adore chaos because we love to produce order." - M C Escher'];
 elements[5]=['opposite','i08509250000non06;i07503324000non06;i07503376000non06;c075003non000;c935003non000;i93506724000non06;i93506776000non06','svg'];
 elements[6]=['dark energy',['⬛','🔋','?'],[[-25,90,130],[15,70,70],[25,70,70]],'Okay, it\'s not the <i>opposite</i> of energy, but what the crap is it?'];
 elements[7]=['gravity',['||','🍎'],[[28,20],[16,90,50]],'"Ow!" - Sir Isaac Newton'];
