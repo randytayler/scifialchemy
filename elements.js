@@ -59,7 +59,7 @@ elements[38]=['Star Trek','e50574025000FFF03;pFF800001M77,88C73,61,61,24,51,9H50
 elements[39]=['Stargate SG-1','c484842000666;c484830000AAD;y3330008099189927747074;yF74non481644075307;yF74non814989448953;yF74non154907440753;yF74non732776188225;yF74non232719181425;yF74non737176808273;yF74non237119801473','svg','',1];
 elements[40]=['Vulcan','🖖🏻',[],'This is also the symbol for Mork, but you\'re too young to remember that.'];
 elements[41]=['black hole',['🌌','⚫'],[[0,70],[30,50,50]]];
-elements[42]=['Hitchhiker\'s Guide to the Galaxy','👍',[],'Cheat much?',1];
+elements[42]=['Hitchhiker\'s Guide to the Galaxy','👍',[],'Don\'t panic.',1];
 elements[43]=['Sith','i86856058666non04;i60581311E22non06;i60581311FFFnon02;i77756058666non06;i86858482666non06','svg'];
 elements[44]=['Jedi','i13853958666non04;i3958861145Bnon06;i39588611FFFnon02;i23753958666non06;i13851583666non06','svg'];
 elements[45]=["2001","c49494699900006;pnonFFF04M25,38c3-8,8-12,16-16;pnonFFF06M72,15c8,3,12,8,16,15;c494914000F0000","svg","\"What are you doing, Dave?\" - Hal 9000",1];
@@ -82,7 +82,7 @@ elements[60]=['Romulan','p66600001M65,69v-1c5,10,26,12,38,19c0,0,4,5,0,12C44,99,
 
 elements[61]=['wheel','c485141000000;c485023000CCC;pnonFFF02M48,32c8,0,16,7,16,14','svg'];
 elements[62]=['computer','💻‍',[],'Sliderules on steroids.'];
-elements[63]=['Battlestar Galactica','',[],'',1];
+elements[63]=['Battlestar Galactica','',[],'',1];//nix
 elements[64]=['time machine','r08681118000000;r84681118000000;y99900017808780966896537429272907530768;r38572807000000;pnon66605M61,29c0-11,8-21,18-21;pnon66605M42,29c0-11-8-21-18-21;p00066603M79,9c2-5,17-3,20,6;p00066603M25,9C23,4,7,6,5,15;r71570907FFF000;r82570907FFF000;r13570907FFF000;r25570907FFF000','svg'];
 elements[65]=['death','💀',[]];
 elements[66]=['starship','🚀',[]];
@@ -190,7 +190,7 @@ var recipes=[
 	{i:[2,33],r:46,m:'n'},
 	{i:[2,34],r:46,m:'n'},
 	{i:[33,34],r:46,m:'n'},
-	{i:[37,65],r:49,m:'n'},
+	{i:[37,65],r:42,m:'n'},
 	{i:[8,36],r:47,m:sw},
 	{i:[25,36],r:47,m:'n'},
 	{i:[25,35],r:48,m:'n'},
@@ -212,7 +212,6 @@ var recipes=[
 	{i:[34,46],r:61,m:'n'},
 	{i:[33,46],r:62,m:'n'},
 	{i:[12,62],r:45,m:'n'},
-	//{i:[8,48],r:63,m:'n'},
 	{i:[9,46],r:64,m:bttf},
 	{i:[34,36],r:65,m:'n'},
 	{i:[36,36],r:65,m:'n'},
