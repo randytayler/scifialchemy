@@ -12,6 +12,7 @@
 		var pantry=[];
 		var lastrand=-1;
 		var sound=true;
+		var moves=0;
 		function t(f,s,d) {setTimeout(function(){n(f,d)},s);}
 		pl=song=>{if(sound)for(var j=0;j<song.length;j++)for(var i=1;i<song[j].length;i+=2)t(song[j][i],song[j][i+1],song[j][0])}
 		function store(discoveredElements) {
@@ -46,6 +47,13 @@
 			}
 			document.getElementById('score').innerText = score;
 			document.getElementById('max').innerText = discoveries.length;
+			if (score == discoveries.length) {
+				win();
+			}
+		}
+		function win(){
+			document.getElementById('win').style.display="block";
+			document.getElementById('moves').innerText = "You found every element in " + moves + " moves.";
 		}
 		function closeModal(){
 			modal.style.display="none";
@@ -82,6 +90,8 @@
 		function newgame(){
 			localStorage.clear();
 			discoveries = [];
+			moves = 0;
+			document.getElementById('win').style.display='none';
 			clearForge();
 			play();
 		}
@@ -188,7 +198,7 @@
 			grid-column-start:4;
 			grid-column-end:5;
 		}
-		#modal, #collection {
+		#modal, #collection, #win {
 			display:none;
 			position:fixed;
 			width:100%;
@@ -218,6 +228,15 @@
 			height:50%;
 			text-align: center;
 			vertical-align: middle;
+		}
+		#wincontent {
+			margin:15% auto;
+			background-color: #fff;
+			width:100%;
+			height:100%;
+			text-align: center;
+			vertical-align: middle;
+			font-size:32px;
 		}
 		#homecontent {
 			margin:15% auto;
@@ -267,8 +286,8 @@
 	<div style="font-size:16px"><h3>Instructions:</h3><h4>Combine elements to find science fiction ideas, characters and shows.</h4>Drag elements into the forge area. Place an element on top of another see if they combine. <b>Elements can sometimes combine with themselves!</b></b></div>
 	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com">JS13K Games</a> 2021.</div>
 </div></div>
-<div id="collection"><div id="collectioncontent">
-</div></div>
+<div id="collection"><div id="collectioncontent"></div></div>
+<div id="win"><div id="wincontent"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><div id="newgamebutton2">NEW GAME</div></div></div>
 <div id="modal"><div id="modalcontent"><h1 id="discovery"></h1><div><img id="discoveryimage" src="" width="100" height="100"></div><h2 id="discoverydesc" style="padding:10%"></h2></div></div>
 <div class="outer">
 	<div class="upper">
@@ -301,7 +320,6 @@ prepElements();
 prepIcons();
 goHome();
 //finalize();
-score();
 (D=e=>{
 	pointercancel=e=>{
 		D.n.remove();
@@ -329,7 +347,7 @@ score();
 			goColl();
 		} else if (D.g && D.g.id == 'playbutton') {
 			play();
-		} else if (D.g && D.g.id == 'newgamebutton') {
+		} else if (D.g && (D.g.id == 'newgamebutton' || D.g.id=='newgamebutton2')) {
 			newgame();
 		} else if (D.g && D.g.id == 'up') {
 			scrollUp();
@@ -396,6 +414,7 @@ score();
 		}
 		if(D.n){
 			if (D.p.classList.contains("ingredient")){
+				moves++;
 				var id1 = D.p.getAttribute('elid');
 				var id2 = D.n.getAttribute('elid');
 				var result = findResult(id1,id2);
@@ -422,7 +441,7 @@ score();
 						//if (!o.childNodes[0].classList.contains('found')) {
 						document.getElementById('discovery').innerText = elements[result[0]][0];
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
-						document.getElementById('discoverydesc').innerText = elements[result[0]][3] ? elements[result[0]][3] : '';
+						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
 						modal.style.display = 'block';
 						discoveries[result[0]]=true;
 						store(discoveries);
