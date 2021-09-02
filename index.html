@@ -47,7 +47,7 @@
 			}
 			document.getElementById('score').innerText = score;
 			document.getElementById('max').innerText = discoveries.length;
-			if (score == 8){//discoveries.length) {
+			if (score == discoveries.length) {
 				win();
 			}
 		}
@@ -320,7 +320,6 @@ prepElements();
 prepIcons();
 goHome();
 //finalize();
-score();
 (D=e=>{
 	pointercancel=e=>{
 		D.n.remove();
