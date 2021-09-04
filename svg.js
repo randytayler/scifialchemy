@@ -1,10 +1,10 @@
-function svg(x,elid) {
+function makeSvg(x,w,h){
 	var shapes = x.split(";");
 	var ret=[];
 	var music;
 	var s=document.createElement('svg');
-	s.setAttribute('width',99);
-	s.setAttribute('height',99);
+	s.setAttribute('width',w);
+	s.setAttribute('height',h);
 	for (var i=0;i<shapes.length;i++){
 		var t=shapes[i].substr(0,1);
 		switch(t){
@@ -26,34 +26,29 @@ function svg(x,elid) {
 			case 'c':
 				s.appendChild(svgC(shapes[i]));
 				break;
-			case 'm':
-				music = shapes[i].substr(1);
-				break;
 			default:
 				break;
 		}
 	}
 	s.setAttribute('version','1.1');
 	var xml = (new XMLSerializer).serializeToString(s).replace(/1999\/xhtml/,'2000/svg');
+	return "data:image/svg+xml;charset=utf-8,"+xml;
+}
+
+function svg(x,e) {
 	var m=document.createElement('img');
-	m.width=m.height=99;
-	m.src = "data:image/svg+xml;charset=utf-8,"+xml;
+	m.src = makeSvg(x,99,99);
+	m.width=99;
+	m.height=99;
 	m.setAttribute('class','pantryIngredient drag');
 	m.setAttribute('id','i'+(ingredients.length));
-	m.setAttribute('elid',elid);
-	//m.setAttribute('style', 'left:' + (ingredients.length*56) + 'px');
-	ingredients[ingredients.length] = 'i'+(ingredients.length);
-	document.getElementById('pantrySlot'+elid).appendChild(m);
+	document.getElementById('pantrySlot'+e).appendChild(m);
+	m.setAttribute('elid', e);
+	ingredients[ingredients.length] = 'i' + (ingredients.length);
 	var desc = document.createElement('span');
-	desc.innerText = elements[elid][0];
-	document.getElementById('pantrySlot'+elid).appendChild(desc);
-	document.getElementById('pantrySlot'+elid).style.display='none';
-	m.addEventListener('touchmove', function(e){
-		e.preventDefault();
-		var tl=e.targetTouches[0];
-		m.style.left=tl.pageX+'px';
-		m.style.top=tl.pageY+'px';
-	}, )
+	desc.innerText = elements[e][0];
+	document.getElementById('pantrySlot'+e).appendChild(desc);
+	document.getElementById('pantrySlot'+e).style.display='none';
 }
 function svgR(x){
 	var a=document.createElement('rect');

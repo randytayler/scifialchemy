@@ -1,6 +1,7 @@
 <!DOCTYPE html><html>
 <head>
 	<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="monetization" content="$ilp.uphold.com/U9iHfppnha6L">
 	<title>SciFi Alchemy</title>
 	<script src="elements.js"></script>
 	<script src="alchemy.js"></script>
@@ -73,7 +74,8 @@
 			min-width:50px;
 			min-height:50px;
 		}
-		#up, #down {
+		#upbutton, #downbutton {
+			padding-top:15px;
 			min-width:48px;
 			min-height:105px;
 		}
@@ -177,6 +179,14 @@
 			from {top: -300px; opacity: 0}
 			to {top: 0; opacity: 1}
 		}
+		@keyframes focus {
+			from {filter:blur(15px)}
+			to {filter:blur(0px)}
+		}
+		.focusin{
+			animation-name:focus;
+			animation-duration: 1.5s;
+		}
 		#trash{
 			position:relative;
 			top:0;
@@ -196,7 +206,7 @@
 <canvas id="ctmp" width="100" height="100" style="display:none"></canvas>
 <div id="home"><div id="homecontent">
 	<canvas id="homecanvas" width="400" height="600" style="position:fixed;top:0;left:0;z-index:-1"></canvas>
-	<h1 style="font-family:Arial Black">SCI-FI ALCHEMY</h1>
+	<h1 style="font-family:Arial Black" class="focusin">SCI-FI ALCHEMY</h1>
 	<div id="playbutton">PLAY</div>
 	<div id="newgamebutton">NEW GAME</div>
 	<div id="soundbutton">SOUND ON</div>
@@ -218,8 +228,8 @@
 	</div>
 	<div class="lower">
 		<div class="nav">
-			<div><button><img id="up" width=30 height="80" src="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' height='100' width='50'%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='9' y1='85' x2='25' y2='17'/%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='41' y1='85' x2='25' y2='17'/%3E%3Ccircle stroke='none' fill='%23000' cx='25' cy='17' r='3'/%3E%3C/svg%3E"></button></div>
-			<div><button style="transform:scaleY(-1)"><img id="down" width=30 height="80" src="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' height='100' width='50'%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='9' y1='85' x2='25' y2='17'/%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='41' y1='85' x2='25' y2='17'/%3E%3Ccircle stroke='none' fill='%23000' cx='25' cy='17' r='3'/%3E%3C/svg%3E"></button></div>
+			<div><button><img id="upbutton" width=40 height="80"></button></div>
+			<div><button><img id="downbutton" width=40 height="80"></button></div>
 		</div>
 		<div id="pantry" class="copy">
 			<div style="position:relative;top:5000px" id="spacer">.</div>
@@ -232,12 +242,12 @@ var home = document.getElementById('home');
 var ctmp = document.getElementById('ctmp');
 var collection = document.getElementById('collection');
 var hintTime = 30000;
-var hintInterval = setInterval(enableHint, hintTime);
+var hintInterval = false;
 var hintsEnabled = false;
 prepSlots();
 prepElements();
 prepIcons();
-setTimeout(prepHome,500);
+setTimeout(prepHome,0);
 goHome();
 var touchinprogress=false;
 (D=e=>{
@@ -272,9 +282,9 @@ var touchinprogress=false;
 			play();
 		} else if (D.g && (D.g.id == 'newgamebutton' || D.g.id=='newgamebutton2')) {
 			newgame();
-		} else if (D.g && D.g.id == 'up') {
+		} else if (D.g && D.g.id == 'upbutton') {
 			scrollUp();
-		} else if (D.g && D.g.id == 'down') {
+		} else if (D.g && D.g.id == 'downbutton') {
 			scrollDown();
 		} else if (D.g && D.g.id == 'modalcontent' || (D.g.parentNode && D.g.parentNode.id == 'modalcontent' || D.g.parentNode.parentNode && D.g.parentNode.parentNode.id == 'modalcontent')) {
 			closeModal();
@@ -365,8 +375,10 @@ var touchinprogress=false;
 						o.style.display = 'inline';
 					}
 					if (!discoveries[result[0]]) {
+						resetHints();
 						document.getElementById('discovery').innerText = elements[result[0]][0];
 						document.getElementById('discoveryimage').style.display = 'inline';
+						document.getElementById('discoveryimage').className = 'focusin';
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
 						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
 						modal.style.display = 'block';

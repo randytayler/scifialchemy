@@ -136,6 +136,8 @@ function finalize(){
 			document.getElementById('pantrySlot'+i).style.display='none';
 		}
 	}
+	document.getElementById('downbutton').src = makeSvg('p66600001M17,69L1,1c0,0,15,21,32,0L17,69z;i17693301000non02;pnonCCC02M1,1c0,0,15,21,32,0;i17690101CCCnon02',40,80);
+	document.getElementById('upbutton').src = makeSvg('p66600001M17,0L1,68c0,0,15-21,32,0L17,0z;i33681700000non02;pnon00002M1,68c0,0,15-21,32,0;i01681700CCCnon02',40,80);
 }
 
 function prepHome(){
@@ -156,12 +158,12 @@ function prepHome(){
 	hcx.drawImage(document.getElementById('i3'),80,450);
 	hcx.drawImage(document.getElementById('i3'),299,450);
 	hcx.globalAlpha = .4;
-	hcx.drawImage(document.getElementById('i14'),0,29);
-	hcx.drawImage(document.getElementById('i32'),275,29);
+	hcx.filter = 'blur(1px)';
+	hcx.drawImage(document.getElementById('i15'),0,29);
+	hcx.drawImage(document.getElementById('i33'),275,29);
 	hcx.globalAlpha = .3;
-	hcx.drawImage(document.getElementById('i34'),150,100);
-	hcx.drawImage(document.getElementById('i71'),10,230);
-	hcx.drawImage(document.getElementById('i29'),270,230);
+	hcx.drawImage(document.getElementById('i72'),10,230);
+	hcx.drawImage(document.getElementById('i30'),270,230);
 }
 
 function store(discoveredElements) {
@@ -199,7 +201,7 @@ function score(){
 	}
 	document.getElementById('score').innerText = score;
 	document.getElementById('max').innerText = discoveries.length;
-	if (score == 10 || score == discoveries.length) {
+	if (score == discoveries.length) {
 		win();
 	}
 }
@@ -221,11 +223,17 @@ function clearForge(){
 }
 function goHome(){
 	home.style.display="block";
+	if (document.monetization) {
+		document.monetization.addEventListener('monetizationstart', () => {
+			hintTime = 15000;
+		})
+	}
 }
 function goColl(){
 	collection.style.display="block";
 }
 function play(){
+	hintInterval = setInterval(enableHint, hintTime);
 	finalize();
 	score();
 	home.style.display="none";
@@ -246,6 +254,7 @@ function newgame(){
 	discoveries = [];
 	moves = 0;
 	document.getElementById('wincontent').style.display='none';
+	resetHints();
 	closeCollection();
 	clearForge();
 	play();
@@ -275,10 +284,12 @@ function findHint(){
 		}
 	}
 	var hintNumber = Math.floor(Math.random()*hints.length);
+	resetHints();
+	return hints[hintNumber];
+}
+function resetHints(){
 	hintsEnabled = false;
 	clearInterval(hintInterval);
 	hintInterval = setInterval(enableHint, hintTime);
 	document.getElementById('hint').style.opacity = .3;
-	console.log(hintNumber);
-	return hints[hintNumber];
 }

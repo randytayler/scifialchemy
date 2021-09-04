@@ -45,7 +45,7 @@ elements[26]=['primate','🐒',[]];
 elements[27]=['brain','🧠',[],'Not all brains are intelligent.'];
 elements[28]=['military','p00000001M22,59c-1,26,32,19,69,19;y000000225995599177;c316505000BBB;c437006000BBB;c577006000BBB;c717006000BBB;c857006000BBB;r21497612666000;r59262211666000;r31375812666000;r14304604666000;r03271307666000','svg'];
 elements[29]=['solid','🧊',[]];
-elements[30]=['teleportation',['💫','🌟','🌟'],[[0,100,80],[4,60,40],[24,40,40]]];
+elements[30]=['teleportation',['🌀','🌟','🌟','🌟'],[[0,80,80],[10,60,40],[40,40,30],[50,80,30]]];
 elements[31]=['alien','👽',[],'The creature, not the movie.'];
 elements[32]=['The Force','c525041000FFF;c522921non000;p00000001M52,91V9c55,0,54,82-1,82;c527021nonFFF;c522906nonFFF;c526906non000','svg'];
 
@@ -57,7 +57,7 @@ elements[37]=['planet','🪐',[],'Remember when there were only 9, and they were
 elements[38]=['Star Trek','e50574025000FFF03;pFF800001M77,88C73,61,61,24,51,9H50C40,24,28,61,24,88C52,49,58,46,77,88z','svg','',1];
 elements[39]=['Stargate SG-1','c484842000666;c484830000AAD;y3330008099189927747074;yF74non481644075307;yF74non814989448953;yF74non154907440753;yF74non732776188225;yF74non232719181425;yF74non737176808273;yF74non237119801473','svg','',1];
 elements[40]=['Vulcan','🖖🏻',[],'This is also the symbol for Mork, but you\'re too young to remember that.'];
-elements[41]=['black hole',['🌌','⚫'],[[0,70],[30,50,50]]];
+elements[41]=['black hole','r000099990000;c800402nonFFF;c126202nonFFF;c043201nonFFF;c529401nonFFF;c602001nonFFF;c884802nonFFF;c948001nonFFF;c707001nonFFF;c505030FFF00003','svg'];
 elements[42]=['Hitchhiker\'s Guide to the Galaxy','👍',[],'Don\'t panic.',1];
 elements[43]=['Sith','i86856058666non04;i60581311E22non06;i60581311FFFnon02;i77756058666non06;i86858482666non06','svg'];
 elements[44]=['Jedi','i13853958666non04;i3958861145Bnon06;i39588611FFFnon02;i23753958666non06;i13851583666non06','svg'];
@@ -69,7 +69,7 @@ elements[48]=['Battlestar Galactica','r000099990000;c800402nonFFF;c126202nonFFF;
 elements[49]=['apocalypse','i68828736666non03;i72359746666non;i71449253666non;i09110985033non;i27112785033non;i37223785033non;i18221885033non;i09342734033non;i27440944033non;i27323734033non;i37272719033non;i37692772033non;i37592761033non;i37502750033non;r09501830333033;r27441006333033;r00809919000000','svg','Kinda scary how much the end of civilization entertains us.'];
 elements[50]=['mutation',['🧬','💥'],[[-10,80,90],[20,70,50]]];
 elements[51]=['vehicle','🛷',[]];
-elements[52]=['desert','🏜️',[]];
+elements[52]=['desert',['🏜️'],[[-20,90,100]]];
 elements[53]=['age','👴',[],"It'll happen to you."];
 elements[54]=['warrior','🤺',[]];
 elements[55]=['clone',['🧍','🧍','→'],[[-20,70],[50,70],[30,40,36]],'Like a twin, but born waaaaay later.'];
@@ -173,6 +173,8 @@ var recipes=[
 	{i:[7,29],r:37,m:'n'},
 	{i:[8,28],r:38,m:st},
 	{i:[25,30],r:39,m:'n'},
+	{i:[30,37],r:39,m:'n'},
+	{i:[30,61],r:39,m:'n'},
 	{i:[28,30],r:39,m:'n'},
 	{i:[11,31],r:40,m:'n'},
 	{i:[7,25],r:41,m:'n'},
@@ -200,6 +202,7 @@ var recipes=[
 	{i:[28,34],r:54,m:'n'},
 	{i:[34,34],r:55,m:'n'},
 	{i:[1,34],r:56,m:'n'},
+	{i:[9,41],r:57,m:'n'},
 	{i:[34,41],r:57,m:'n'},
 	{i:[36,37],r:58,m:'n'},
 	{i:[34,40],r:59,m:'n'},
