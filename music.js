@@ -23,5 +23,21 @@ function n(e,x) {
 		s.start()
 }
 
-function t(f,s,d) {setTimeout(function(){n(f,d)},s);}
-pl=song=>{if(sound)for(var j=0;j<song.length;j++)for(var i=1;i<song[j].length;i+=2)t(song[j][i],song[j][i+1],song[j][0])}
+var soundInterval = false;
+var currentSong = false;
+var currentNote = false;
+function playSong(song){
+	currentSong = song;
+	currentNote = 0;
+	soundInterval = setInterval(playNote,100);
+}
+function playNote(){
+	for(var i=0;i<currentSong.length;i++){
+		if (currentSong[i][currentNote]) {
+			var noteData = currentSong[i][currentNote].split("-");
+			n(notes[noteData[0]],noteData[1]);
+		}
+	}
+	currentNote++;
+	if (currentNote > currentSong[0].length) clearInterval(soundInterval);
+}

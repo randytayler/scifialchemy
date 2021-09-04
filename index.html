@@ -390,9 +390,9 @@ var touchinprogress=false;
 						if (result[1] == 'n') {
 							var rand = Math.floor(Math.random()*non.length)
 							while (rand == lastrand) { rand = Math.floor(Math.random()*non.length) }
-							pl(non[rand]);
+							playSong(non[rand]);
 							lastrand=rand;
-						} else pl(result[1]);
+						} else playSong(result[1]);
 					}
 					score();
 					return;
