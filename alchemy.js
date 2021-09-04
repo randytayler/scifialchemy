@@ -1,3 +1,10 @@
+var ingredients=[];
+var discoveries=[];
+var pantry=[];
+var lastrand=-1;
+var sound=true;
+var moves=0;
+
 function findResult(id1,id2){
 	for (var i=0; i<recipes.length; i++){
 		if ((recipes[i].i[0] == id1) && (recipes[i].i[1] == id2)) return [recipes[i].r,recipes[i].m];
@@ -22,31 +29,6 @@ function drawEmoji(i, emoji, x, y, size){
 	ctxnew.fillText(emoji, x, y);
 }
 
-function prepButtons(){
-	var buttons = [
-		[['S','E']],
-		[['↖'],[10,10]]
-	];
-	for (var i = 0; i < buttons.length; i++) {
-		var icon = buttons[i];
-		for (var b = 0; b < icon[0].length; b++) {
-			if (icon[1]) {
-				var x = icon[1][b][0];
-				var y = icon[1][b][1];
-				if (icon[1][b][2]) var size = icon[1][b][2];
-				else var size = 35;
-			} else {
-				var x = 0;
-				var y = 99;
-				var size = 70;
-			}
-			drawEmoji(i + 1000, icon[0][b], x, y, size);
-		}
-	}
-	//var button = document.getElementById('goFS');
-	//button.style.backgroundImage = document.getElementById('c' + 1000).toDataURL();
-}
-
 function prepSlots(){
 	for (var e=0; e<elements.length; e++) {
 		var slot = document.createElement('div');
@@ -59,12 +41,6 @@ function prepSlots(){
 			slot.className = 'pantrySlot';
 			document.getElementById('collectioncontent').appendChild(slot);
 		}
-	}
-}
-
-function sortSlots(){
-	var slots = document.getElementById('pantry').childNodes;
-	for (var i = 0; i < slots.length; i++){
 	}
 }
 
@@ -145,4 +121,84 @@ function finalize(){
 			document.getElementById('pantrySlot'+i).style.display='none';
 		}
 	}
+}
+function store(discoveredElements) {
+	localStorage.setItem('discoveries', discoveredElements);
+}
+function toggleFullScreen() {
+	var doc = window.document;
+	var docEl = doc.documentElement;
+
+	var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+	var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+	if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+		requestFullScreen.call(docEl);
+		document.getElementById('fullscreenbutton').innerText='WINDOWED';
+	}
+	else {
+		cancelFullScreen.call(doc);
+		document.getElementById('fullscreenbutton').innerText='FULL SCREEN';
+	}
+}
+function scrollUp(){
+	document.getElementById('pantry').scrollTop -= 400;
+}
+function scrollDown(){
+	document.getElementById('pantry').scrollTop += 400;
+}
+function score(){
+	var score = 0;
+	for (var e=0;e<discoveries.length;e++){
+		if (discoveries[e]) score++;
+	}
+	document.getElementById('score').innerText = score;
+	document.getElementById('max').innerText = discoveries.length;
+	if (score == discoveries.length) {
+		win();
+	}
+}
+function win(){
+	document.getElementById('win').style.display="block";
+	document.getElementById('moves').innerText = "You found every element in " + moves + " moves.";
+}
+function closeModal(){
+	modal.style.display="none";
+}
+function closeCollection(){
+	collection.style.display="none";
+}
+function clearForge(){
+	var forgeElements = document.getElementById('forge').getElementsByTagName('img');
+	var count = forgeElements.length;
+	for (var f=0; f<count; f++) forgeElements[0].remove();
+}
+function goHome(){
+	home.style.display="block";
+}
+function goColl(){
+	collection.style.display="block";
+}
+function play(){
+	finalize();
+	score();
+	home.style.display="none";
+	document.getElementById('playbutton').innerText = 'CONTINUE';
+}
+function toggleSound(){
+	if (sound) {
+		document.getElementById('soundbutton').innerText = 'SOUND OFF';
+		sound = false;
+	} else {
+		document.getElementById('soundbutton').innerText = 'SOUND ON';
+		sound = true;
+	}
+}
+function newgame(){
+	localStorage.removeItem('discoveries');
+	discoveries = [];
+	moves = 0;
+	document.getElementById('win').style.display='none';
+	clearForge();
+	play();
 }

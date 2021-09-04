@@ -6,96 +6,6 @@
 	<script src="alchemy.js"></script>
 	<script src="music.js"></script>
 	<script src="svg.js"></script>
-	<script>
-		var ingredients=[];
-		var discoveries=[];
-		var pantry=[];
-		var lastrand=-1;
-		var sound=true;
-		var moves=0;
-		function t(f,s,d) {setTimeout(function(){n(f,d)},s);}
-		pl=song=>{if(sound)for(var j=0;j<song.length;j++)for(var i=1;i<song[j].length;i+=2)t(song[j][i],song[j][i+1],song[j][0])}
-		function store(discoveredElements) {
-			localStorage.setItem('discoveries', discoveredElements);
-		}
-		function toggleFullScreen() {
-			var doc = window.document;
-			var docEl = doc.documentElement;
-
-			var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-			var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-			if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-				requestFullScreen.call(docEl);
-				document.getElementById('fullscreenbutton').innerText='WINDOWED';
-			}
-			else {
-				cancelFullScreen.call(doc);
-				document.getElementById('fullscreenbutton').innerText='FULL SCREEN';
-			}
-		}
-		function scrollUp(){
-			document.getElementById('pantry').scrollTop -= 400;
-		}
-		function scrollDown(){
-			document.getElementById('pantry').scrollTop += 400;
-		}
-		function score(){
-			var score = 0;
-			for (var e=0;e<discoveries.length;e++){
-				if (discoveries[e]) score++;
-			}
-			document.getElementById('score').innerText = score;
-			document.getElementById('max').innerText = discoveries.length;
-			if (score == discoveries.length) {
-				win();
-			}
-		}
-		function win(){
-			document.getElementById('win').style.display="block";
-			document.getElementById('moves').innerText = "You found every element in " + moves + " moves.";
-		}
-		function closeModal(){
-			modal.style.display="none";
-		}
-		function closeCollection(){
-			collection.style.display="none";
-		}
-		function clearForge(){
-			var forgeElements = document.getElementById('forge').getElementsByTagName('img');
-			var count = forgeElements.length;
-			for (var f=0; f<count; f++) forgeElements[0].remove();
-		}
-		function goHome(){
-			home.style.display="block";
-		}
-		function goColl(){
-			collection.style.display="block";
-		}
-		function play(){
-			finalize();
-			score();
-			home.style.display="none";
-			document.getElementById('playbutton').innerText = 'CONTINUE';
-		}
-		function toggleSound(){
-			if (sound) {
-				document.getElementById('soundbutton').innerText = 'SOUND OFF';
-				sound = false;
-			} else {
-				document.getElementById('soundbutton').innerText = 'SOUND ON';
-				sound = true;
-			}
-		}
-		function newgame(){
-			localStorage.clear();
-			discoveries = [];
-			moves = 0;
-			document.getElementById('win').style.display='none';
-			clearForge();
-			play();
-		}
-	</script>
 	<style>
 		body {
 			margin:0px;
@@ -314,12 +224,10 @@ var modal = document.getElementById('modal');
 var home = document.getElementById('home');
 var ctmp = document.getElementById('ctmp');
 var collection = document.getElementById('collection');
-prepButtons();
 prepSlots();
 prepElements();
 prepIcons();
 goHome();
-//finalize();
 (D=e=>{
 	pointercancel=e=>{
 		D.n.remove();
@@ -486,7 +394,6 @@ goHome();
 	addEventListener("mouseup",pointerup);
 	addEventListener("touchend",pointerup);
 })();
-sortSlots();
 </script>
 </body>
 </html>
