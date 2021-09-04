@@ -1,6 +1,7 @@
 <!DOCTYPE html><html>
 <head>
 	<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="monetization" content="$ilp.uphold.com/U9iHfppnha6L">
 	<title>SciFi Alchemy</title>
 	<script src="elements.js"></script>
 	<script src="alchemy.js"></script>
@@ -232,7 +233,7 @@ var home = document.getElementById('home');
 var ctmp = document.getElementById('ctmp');
 var collection = document.getElementById('collection');
 var hintTime = 30000;
-var hintInterval = setInterval(enableHint, hintTime);
+var hintInterval = false;
 var hintsEnabled = false;
 prepSlots();
 prepElements();
@@ -365,6 +366,7 @@ var touchinprogress=false;
 						o.style.display = 'inline';
 					}
 					if (!discoveries[result[0]]) {
+						resetHints();
 						document.getElementById('discovery').innerText = elements[result[0]][0];
 						document.getElementById('discoveryimage').style.display = 'inline';
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;

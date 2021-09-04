@@ -199,7 +199,7 @@ function score(){
 	}
 	document.getElementById('score').innerText = score;
 	document.getElementById('max').innerText = discoveries.length;
-	if (score == 10 || score == discoveries.length) {
+	if (score == discoveries.length) {
 		win();
 	}
 }
@@ -221,11 +221,17 @@ function clearForge(){
 }
 function goHome(){
 	home.style.display="block";
+	if (document.monetization) {
+		document.monetization.addEventListener('monetizationstart', () => {
+			hintTime = 15000;
+		})
+	}
 }
 function goColl(){
 	collection.style.display="block";
 }
 function play(){
+	hintInterval = setInterval(enableHint, hintTime);
 	finalize();
 	score();
 	home.style.display="none";
@@ -246,6 +252,7 @@ function newgame(){
 	discoveries = [];
 	moves = 0;
 	document.getElementById('wincontent').style.display='none';
+	resetHints();
 	closeCollection();
 	clearForge();
 	play();
@@ -275,10 +282,12 @@ function findHint(){
 		}
 	}
 	var hintNumber = Math.floor(Math.random()*hints.length);
+	resetHints();
+	return hints[hintNumber];
+}
+function resetHints(){
 	hintsEnabled = false;
 	clearInterval(hintInterval);
 	hintInterval = setInterval(enableHint, hintTime);
 	document.getElementById('hint').style.opacity = .3;
-	console.log(hintNumber);
-	return hints[hintNumber];
 }
