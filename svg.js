@@ -1,4 +1,4 @@
-function svg(x,elid) {
+function svg(x,e) {
 	var shapes = x.split(";");
 	var ret=[];
 	var music;
@@ -40,20 +40,13 @@ function svg(x,elid) {
 	m.src = "data:image/svg+xml;charset=utf-8,"+xml;
 	m.setAttribute('class','pantryIngredient drag');
 	m.setAttribute('id','i'+(ingredients.length));
-	m.setAttribute('elid',elid);
-	//m.setAttribute('style', 'left:' + (ingredients.length*56) + 'px');
-	ingredients[ingredients.length] = 'i'+(ingredients.length);
-	document.getElementById('pantrySlot'+elid).appendChild(m);
+	document.getElementById('pantrySlot'+e).appendChild(m);
+	m.setAttribute('elid', e);
+	ingredients[ingredients.length] = 'i' + (ingredients.length);
 	var desc = document.createElement('span');
-	desc.innerText = elements[elid][0];
-	document.getElementById('pantrySlot'+elid).appendChild(desc);
-	document.getElementById('pantrySlot'+elid).style.display='none';
-	m.addEventListener('touchmove', function(e){
-		e.preventDefault();
-		var tl=e.targetTouches[0];
-		m.style.left=tl.pageX+'px';
-		m.style.top=tl.pageY+'px';
-	}, )
+	desc.innerText = elements[e][0];
+	document.getElementById('pantrySlot'+e).appendChild(desc);
+	document.getElementById('pantrySlot'+e).style.display='none';
 }
 function svgR(x){
 	var a=document.createElement('rect');

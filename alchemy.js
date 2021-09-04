@@ -156,12 +156,12 @@ function prepHome(){
 	hcx.drawImage(document.getElementById('i3'),80,450);
 	hcx.drawImage(document.getElementById('i3'),299,450);
 	hcx.globalAlpha = .4;
-	hcx.drawImage(document.getElementById('i14'),0,29);
-	hcx.drawImage(document.getElementById('i32'),275,29);
+	hcx.filter = 'blur(1px)';
+	hcx.drawImage(document.getElementById('i15'),0,29);
+	hcx.drawImage(document.getElementById('i33'),275,29);
 	hcx.globalAlpha = .3;
-	hcx.drawImage(document.getElementById('i34'),150,100);
-	hcx.drawImage(document.getElementById('i71'),10,230);
-	hcx.drawImage(document.getElementById('i29'),270,230);
+	hcx.drawImage(document.getElementById('i72'),10,230);
+	hcx.drawImage(document.getElementById('i30'),270,230);
 }
 
 function store(discoveredElements) {
