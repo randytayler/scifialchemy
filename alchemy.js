@@ -106,8 +106,8 @@ function finalize(){
 	for (var i=0; i<=3; i++){
 		discoveries[i] = true;
 	}
-	if (localStorage.getItem('discoveries')) {
-		discoveries = localStorage.getItem('discoveries').split(',');
+	if (localStorage.getItem('sfa_discoveries')) {
+		discoveries = localStorage.getItem('sfa_discoveries').split(',');
 	}
 	for (var i=0; i<discoveries.length; i++){
 		discoveries[i] = (discoveries[i] == 'false' || !discoveries[i]) ? false : true;
@@ -150,7 +150,10 @@ function prepHome(){
 }
 
 function store(discoveredElements) {
-	localStorage.setItem('discoveries', discoveredElements);
+	localStorage.setItem('sfa_discoveries', discoveredElements);
+}
+function storeMoves() {
+	localStorage.setItem('sfa_moves', moves);
 }
 function toggleFullScreen() {
 	var doc = window.document;
@@ -222,7 +225,8 @@ function toggleSound(){
 	}
 }
 function newgame(){
-	localStorage.removeItem('discoveries');
+	localStorage.removeItem('sfa_discoveries');
+	localStorage.removeItem('sfa_moves');
 	discoveries = [];
 	moves = 0;
 	document.getElementById('win').style.display='none';

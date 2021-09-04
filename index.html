@@ -217,7 +217,7 @@
 			<div><button style="transform:scaleY(-1)"><img id="down" width=30 height="80" src="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' height='100' width='50'%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='9' y1='85' x2='25' y2='17'/%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='41' y1='85' x2='25' y2='17'/%3E%3Ccircle stroke='none' fill='%23000' cx='25' cy='17' r='3'/%3E%3C/svg%3E"></button></div>
 		</div>
 		<div id="pantry" class="copy">
-			<div style="position:relative;top:5000px">.</div>
+			<div style="position:relative;top:5000px" id="spacer">.</div>
 		</div>
 	</div>
 </div>
@@ -231,12 +231,16 @@ prepElements();
 prepIcons();
 setTimeout(prepHome,500);
 goHome();
+var touchinprogress=false;
 (D=e=>{
 	pointercancel=e=>{
 		D.n.remove();
 		if (D.g.m) D.g.m.remove();
+		touchinprogress=false;
 	}
 	pointerdown=e=>{
+		if(touchinprogress)return;
+		touchinprogress=true;
 		e.preventDefault();
 		D.w = 1;
 		D.g = null;
@@ -312,6 +316,7 @@ goHome();
 	}
 
 	pointerup=e=>{
+		touchinprogress=false;
 		e.preventDefault();
 		D.w = 0;
 		if(e.touches && D.X){
@@ -326,6 +331,7 @@ goHome();
 		if(D.n){
 			if (D.p.classList.contains("ingredient")){
 				moves++;
+				storeMoves(moves);
 				var id1 = D.p.getAttribute('elid');
 				var id2 = D.n.getAttribute('elid');
 				var result = findResult(id1,id2);
@@ -349,7 +355,6 @@ goHome();
 						o.style.display = 'inline';
 					}
 					if (!discoveries[result[0]]) {
-						//if (!o.childNodes[0].classList.contains('found')) {
 						document.getElementById('discovery').innerText = elements[result[0]][0];
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
 						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
@@ -366,7 +371,6 @@ goHome();
 							lastrand=rand;
 						} else pl(result[1]);
 					}
-					//o.childNodes[0].className += ' found';
 					score();
 					return;
 				}
