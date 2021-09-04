@@ -94,6 +94,20 @@ function prepIcons(){
 				document.getElementById('trophySlot' + e).appendChild(desc);
 				document.getElementById('trophySlot' + e).style.display = 'none';
 			}
+		} else {
+			var final = elements[e][4] == 1 ? true : false;
+			if (final) {
+				console.log(e);
+				var pantrySlot = document.getElementById('pantrySlot'+e);
+				var img = pantrySlot.children[0];
+				var desc = pantrySlot.children[1].cloneNode(true);
+				var img2 = img.cloneNode();
+				desc.id = 'descoll' + e;
+				img2.id = 'coll' + e;
+				document.getElementById('trophySlot' + e).appendChild(img2);
+				document.getElementById('trophySlot' + e).appendChild(desc);
+				document.getElementById('trophySlot' + e).style.display = 'none';
+			}
 		}
 	}
 }
@@ -101,6 +115,7 @@ function prepIcons(){
 function finalize(){
 	for (var i=0; i<elements.length; i++){
 		pantry[document.getElementById('i' + i).getAttribute('elid')] = i;
+		if (document.getElementById('trophySlot' + i)) document.getElementById('trophySlot' + i).style.display = 'none';
 		discoveries[i] = false;
 	}
 	for (var i=0; i<=3; i++){
@@ -112,11 +127,11 @@ function finalize(){
 	for (var i=0; i<discoveries.length; i++){
 		discoveries[i] = (discoveries[i] == 'false' || !discoveries[i]) ? false : true;
 		if (discoveries[i]) {
-			//if (elements[i][4]){
-			//	document.getElementById('trophySlot'+i).style.display='inline';
-			//} else {
+			if (elements[i][4]){
+				document.getElementById('trophySlot'+i).style.display='inline';
+			} else {
 				document.getElementById('pantrySlot' + i).style.display = 'inline';
-			//}
+			}
 		} else {
 			document.getElementById('pantrySlot'+i).style.display='none';
 		}
@@ -184,13 +199,14 @@ function score(){
 	}
 	document.getElementById('score').innerText = score;
 	document.getElementById('max').innerText = discoveries.length;
-	if (score == discoveries.length) {
+	if (score == 10 || score == discoveries.length) {
 		win();
 	}
 }
 function win(){
-	document.getElementById('win').style.display="block";
+	document.getElementById('wincontent').style.display="block";
 	document.getElementById('moves').innerText = "You found every element in " + moves + " moves.";
+	goColl();
 }
 function closeModal(){
 	modal.style.display="none";
@@ -229,7 +245,40 @@ function newgame(){
 	localStorage.removeItem('sfa_moves');
 	discoveries = [];
 	moves = 0;
-	document.getElementById('win').style.display='none';
+	document.getElementById('wincontent').style.display='none';
+	closeCollection();
 	clearForge();
 	play();
+}
+function enableHint(){
+	document.getElementById('hint').style.opacity = 1;
+	hintsEnabled = true;
+}
+function showHint(){
+	document.getElementById('discovery').innerText = findHint();
+	document.getElementById('discoveryimage').style.display = 'none';
+	document.getElementById('discoverydesc').innerHTML = '';
+	modal.style.display = 'block';
+}
+function findHint(){
+	var hints = [];
+	for (var d=0; d<discoveries.length; d++){
+		for (var e=0; e<discoveries.length; e++){
+			if (discoveries[d] && discoveries[e]){
+				var result = findResult(d,e);
+				if (discoveries[result[0]]) {
+					continue;
+				} else if (result.length > 1) {
+					hints[hints.length] = "Try creating " + elements[result[0]][0] + " with " + elements[e][0];
+				}
+			}
+		}
+	}
+	var hintNumber = Math.floor(Math.random()*hints.length);
+	hintsEnabled = false;
+	clearInterval(hintInterval);
+	hintInterval = setInterval(enableHint, hintTime);
+	document.getElementById('hint').style.opacity = .3;
+	console.log(hintNumber);
+	return hints[hintNumber];
 }

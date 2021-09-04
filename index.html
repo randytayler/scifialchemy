@@ -59,7 +59,8 @@
 			min-height:105px;
 			margin:3px;
 			float:left;
-			text-align:center
+			text-align:center;
+			font-size:10px;
 		}
 		.nav {
 			grid-column-start:1;
@@ -103,10 +104,15 @@
 			grid-column-end:4;
 			text-align:center;
 		}
-		#btncollection {
+		#btnhint {
 			text-align:right;
 			grid-column-start:4;
 			grid-column-end:5;
+		}
+		#btncollection {
+			text-align:right;
+			grid-column-start:5;
+			grid-column-end:6;
 		}
 		#modal, #collection, #win {
 			display:none;
@@ -140,13 +146,13 @@
 			vertical-align: middle;
 		}
 		#wincontent {
-			margin:15% auto;
+			margin:5% auto;
 			background-color: #fff;
-			width:100%;
-			height:100%;
+			width:90%;
 			text-align: center;
 			vertical-align: middle;
-			font-size:32px;
+			font-size:18px;
+			display:none;
 		}
 		#homecontent {
 			margin:15% auto;
@@ -159,12 +165,12 @@
 			font-style:italic;
 		}
 		#collectioncontent {
-			margin:15% auto;
-			color: #fff;
-			width:90%;
+			margin:5% auto;
+			color: #000;
+			width:100%;
 			height:100%;
 			text-align: center;
-			vertical-align: middle;
+			vertical-align: top;
 			font-size:32px;
 		}
 		@keyframes animatetop {
@@ -198,15 +204,14 @@
 	<div style="font-size:16px"><h4>Combine elements to find science fiction ideas, characters and shows.</h4>Drag elements into the forge area. Place an element on top of another see if they combine. <b>Elements can sometimes combine with themselves!</b></b></div>
 	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com" style="color:#fff">JS13K Games</a> 2021.</div>
 </div></div>
-<div id="collection"><div id="collectioncontent"></div></div>
-<div id="win"><div id="wincontent"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><div id="newgamebutton2">NEW GAME</div></div></div>
+<div id="collection"><div id="wincontent"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><span id="newgamebutton2">NEW GAME?</span></div><div id="collectioncontent"></div></div>
 <div id="modal"><div id="modalcontent"><h1 id="discovery"></h1><div><img id="discoveryimage" src="" width="100" height="100"></div><h2 id="discoverydesc" style="padding:10%"></h2></div></div>
 <div class="outer">
 	<div class="upper">
 		<div id="btnhome"><button id="homebutton">🏠</button></div>
 		<div id="title"><h1><span id="score">0</span>/<span id="max">0</span> discovered</h1></div>
+		<div id="btnhint"><button id="hint" style="opacity:.3;font-size:30px">💡</button></div>
 		<div id="btncollection"><button id="collectionbutton">🏆</button></div>
-		<!--<div id="screen"><button id="goFS" style="background-image: url('data:image/gif;base64,R0lGODlhMgAyAKIAAAAAAP///4CAgDMzM6SkpMzMzA0NDUBAQCH5BAAHAP8ALAAAAAAyADIAAAO1GLrc/jDKSau9OOvNu1eFcAxkSRIZYZqHUESCAcw0LWRCrRs3dOi63iUHpB0ig5lhdUoxBzLAADmbfqhSrPX6SGYh3i23EdaOu1XzmZwGt9eLsvsLV8jr+Lx+z+/7/4CBgoOEhYaHiImKi4wYd3WPbHSQbw6Ra5dxlXCZdpuYn5qTnKGeo6CnomKkqaZLTCgYKkxRqww/RTNCFkS5RxAxuQC7Fb1APBEhI0+xF7NMLS+N09SFCQA7')"></button></div>-->
 	</div>
 	<div id="forge" class="forge drop move">
 		<div id="trash">🗑️</div>
@@ -226,6 +231,9 @@ var modal = document.getElementById('modal');
 var home = document.getElementById('home');
 var ctmp = document.getElementById('ctmp');
 var collection = document.getElementById('collection');
+var hintTime = 30000;
+var hintInterval = setInterval(enableHint, hintTime);
+var hintsEnabled = false;
 prepSlots();
 prepElements();
 prepIcons();
@@ -278,6 +286,8 @@ var touchinprogress=false;
 			toggleSound();
 		} else if (D.g && D.g.id == 'fullscreenbutton') {
 			toggleFullScreen();
+		} else if (D.g && D.g.id == 'hint' && hintsEnabled) {
+			showHint();
 		}
 		while(D.g != document && !D.g.classList.contains("drag")){
 			D.g = D.g.parentNode;
@@ -356,6 +366,7 @@ var touchinprogress=false;
 					}
 					if (!discoveries[result[0]]) {
 						document.getElementById('discovery').innerText = elements[result[0]][0];
+						document.getElementById('discoveryimage').style.display = 'inline';
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
 						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
 						modal.style.display = 'block';
