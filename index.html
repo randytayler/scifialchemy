@@ -155,7 +155,8 @@
 			height:100%;
 			text-align: center;
 			vertical-align: middle;
-			font-size:32px;
+			font-size:28px;
+			font-style:italic;
 		}
 		#collectioncontent {
 			margin:15% auto;
@@ -188,13 +189,14 @@
 <body>
 <canvas id="ctmp" width="100" height="100" style="display:none"></canvas>
 <div id="home"><div id="homecontent">
-	<h1>SciFi Alchemy</h1>
+	<canvas id="homecanvas" width="400" height="600" style="position:fixed;top:0;left:0;z-index:-1"></canvas>
+	<h1 style="font-family:Arial Black">SCI-FI ALCHEMY</h1>
 	<div id="playbutton">PLAY</div>
 	<div id="newgamebutton">NEW GAME</div>
 	<div id="soundbutton">SOUND ON</div>
 	<div id="fullscreenbutton">FULL SCREEN</div>
-	<div style="font-size:16px"><h3>Instructions:</h3><h4>Combine elements to find science fiction ideas, characters and shows.</h4>Drag elements into the forge area. Place an element on top of another see if they combine. <b>Elements can sometimes combine with themselves!</b></b></div>
-	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com">JS13K Games</a> 2021.</div>
+	<div style="font-size:16px"><h4>Combine elements to find science fiction ideas, characters and shows.</h4>Drag elements into the forge area. Place an element on top of another see if they combine. <b>Elements can sometimes combine with themselves!</b></b></div>
+	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com" style="color:#fff">JS13K Games</a> 2021.</div>
 </div></div>
 <div id="collection"><div id="collectioncontent"></div></div>
 <div id="win"><div id="wincontent"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><div id="newgamebutton2">NEW GAME</div></div></div>
@@ -227,6 +229,7 @@ var collection = document.getElementById('collection');
 prepSlots();
 prepElements();
 prepIcons();
+setTimeout(prepHome,500);
 goHome();
 (D=e=>{
 	pointercancel=e=>{

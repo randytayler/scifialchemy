@@ -122,6 +122,33 @@ function finalize(){
 		}
 	}
 }
+
+function prepHome(){
+	var hcx = document.getElementById('homecanvas').getContext("2d");
+	hcx.globalAlpha = .5;
+	hcx.drawImage(document.getElementById('i3'),0,0);
+	hcx.drawImage(document.getElementById('i3'),159,20);
+	hcx.drawImage(document.getElementById('i3'),189,0);
+	hcx.drawImage(document.getElementById('i3'),20,158);
+	hcx.drawImage(document.getElementById('i3'),80,158);
+	hcx.drawImage(document.getElementById('i3'),299,158);
+	hcx.globalAlpha = .3;
+	hcx.drawImage(document.getElementById('i3'),0,298);
+	hcx.drawImage(document.getElementById('i3'),159,320);
+	hcx.drawImage(document.getElementById('i3'),189,298);
+	hcx.globalAlpha = .2;
+	hcx.drawImage(document.getElementById('i3'),20,450);
+	hcx.drawImage(document.getElementById('i3'),80,450);
+	hcx.drawImage(document.getElementById('i3'),299,450);
+	hcx.globalAlpha = .4;
+	hcx.drawImage(document.getElementById('i14'),0,29);
+	hcx.drawImage(document.getElementById('i32'),275,29);
+	hcx.globalAlpha = .3;
+	hcx.drawImage(document.getElementById('i34'),150,100);
+	hcx.drawImage(document.getElementById('i71'),10,230);
+	hcx.drawImage(document.getElementById('i29'),270,230);
+}
+
 function store(discoveredElements) {
 	localStorage.setItem('discoveries', discoveredElements);
 }
