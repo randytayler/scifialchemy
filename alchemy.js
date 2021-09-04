@@ -136,6 +136,8 @@ function finalize(){
 			document.getElementById('pantrySlot'+i).style.display='none';
 		}
 	}
+	document.getElementById('downbutton').src = makeSvg('p66600001M17,69L1,1c0,0,15,21,32,0L17,69z;i17693301000non02;pnonCCC02M1,1c0,0,15,21,32,0;i17690101CCCnon02',40,80);
+	document.getElementById('upbutton').src = makeSvg('p66600001M17,0L1,68c0,0,15-21,32,0L17,0z;i33681700000non02;pnon00002M1,68c0,0,15-21,32,0;i01681700CCCnon02',40,80);
 }
 
 function prepHome(){

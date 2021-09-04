@@ -1,10 +1,10 @@
-function svg(x,e) {
+function makeSvg(x,w,h){
 	var shapes = x.split(";");
 	var ret=[];
 	var music;
 	var s=document.createElement('svg');
-	s.setAttribute('width',99);
-	s.setAttribute('height',99);
+	s.setAttribute('width',w);
+	s.setAttribute('height',h);
 	for (var i=0;i<shapes.length;i++){
 		var t=shapes[i].substr(0,1);
 		switch(t){
@@ -26,18 +26,20 @@ function svg(x,e) {
 			case 'c':
 				s.appendChild(svgC(shapes[i]));
 				break;
-			case 'm':
-				music = shapes[i].substr(1);
-				break;
 			default:
 				break;
 		}
 	}
 	s.setAttribute('version','1.1');
 	var xml = (new XMLSerializer).serializeToString(s).replace(/1999\/xhtml/,'2000/svg');
+	return "data:image/svg+xml;charset=utf-8,"+xml;
+}
+
+function svg(x,e) {
 	var m=document.createElement('img');
-	m.width=m.height=99;
-	m.src = "data:image/svg+xml;charset=utf-8,"+xml;
+	m.src = makeSvg(x,99,99);
+	m.width=99;
+	m.height=99;
 	m.setAttribute('class','pantryIngredient drag');
 	m.setAttribute('id','i'+(ingredients.length));
 	document.getElementById('pantrySlot'+e).appendChild(m);
