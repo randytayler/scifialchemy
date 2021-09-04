@@ -22,3 +22,6 @@ function n(e,x) {
 		s.connect(A.destination),
 		s.start()
 }
+
+function t(f,s,d) {setTimeout(function(){n(f,d)},s);}
+pl=song=>{if(sound)for(var j=0;j<song.length;j++)for(var i=1;i<song[j].length;i+=2)t(song[j][i],song[j][i+1],song[j][0])}

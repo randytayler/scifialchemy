@@ -6,96 +6,6 @@
 	<script src="alchemy.js"></script>
 	<script src="music.js"></script>
 	<script src="svg.js"></script>
-	<script>
-		var ingredients=[];
-		var discoveries=[];
-		var pantry=[];
-		var lastrand=-1;
-		var sound=true;
-		var moves=0;
-		function t(f,s,d) {setTimeout(function(){n(f,d)},s);}
-		pl=song=>{if(sound)for(var j=0;j<song.length;j++)for(var i=1;i<song[j].length;i+=2)t(song[j][i],song[j][i+1],song[j][0])}
-		function store(discoveredElements) {
-			localStorage.setItem('discoveries', discoveredElements);
-		}
-		function toggleFullScreen() {
-			var doc = window.document;
-			var docEl = doc.documentElement;
-
-			var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-			var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-			if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-				requestFullScreen.call(docEl);
-				document.getElementById('fullscreenbutton').innerText='WINDOWED';
-			}
-			else {
-				cancelFullScreen.call(doc);
-				document.getElementById('fullscreenbutton').innerText='FULL SCREEN';
-			}
-		}
-		function scrollUp(){
-			document.getElementById('pantry').scrollTop -= 400;
-		}
-		function scrollDown(){
-			document.getElementById('pantry').scrollTop += 400;
-		}
-		function score(){
-			var score = 0;
-			for (var e=0;e<discoveries.length;e++){
-				if (discoveries[e]) score++;
-			}
-			document.getElementById('score').innerText = score;
-			document.getElementById('max').innerText = discoveries.length;
-			if (score == discoveries.length) {
-				win();
-			}
-		}
-		function win(){
-			document.getElementById('win').style.display="block";
-			document.getElementById('moves').innerText = "You found every element in " + moves + " moves.";
-		}
-		function closeModal(){
-			modal.style.display="none";
-		}
-		function closeCollection(){
-			collection.style.display="none";
-		}
-		function clearForge(){
-			var forgeElements = document.getElementById('forge').getElementsByTagName('img');
-			var count = forgeElements.length;
-			for (var f=0; f<count; f++) forgeElements[0].remove();
-		}
-		function goHome(){
-			home.style.display="block";
-		}
-		function goColl(){
-			collection.style.display="block";
-		}
-		function play(){
-			finalize();
-			score();
-			home.style.display="none";
-			document.getElementById('playbutton').innerText = 'CONTINUE';
-		}
-		function toggleSound(){
-			if (sound) {
-				document.getElementById('soundbutton').innerText = 'SOUND OFF';
-				sound = false;
-			} else {
-				document.getElementById('soundbutton').innerText = 'SOUND ON';
-				sound = true;
-			}
-		}
-		function newgame(){
-			localStorage.clear();
-			discoveries = [];
-			moves = 0;
-			document.getElementById('win').style.display='none';
-			clearForge();
-			play();
-		}
-	</script>
 	<style>
 		body {
 			margin:0px;
@@ -149,7 +59,8 @@
 			min-height:105px;
 			margin:3px;
 			float:left;
-			text-align:center
+			text-align:center;
+			font-size:10px;
 		}
 		.nav {
 			grid-column-start:1;
@@ -193,10 +104,15 @@
 			grid-column-end:4;
 			text-align:center;
 		}
-		#btncollection {
+		#btnhint {
 			text-align:right;
 			grid-column-start:4;
 			grid-column-end:5;
+		}
+		#btncollection {
+			text-align:right;
+			grid-column-start:5;
+			grid-column-end:6;
 		}
 		#modal, #collection, #win {
 			display:none;
@@ -230,13 +146,13 @@
 			vertical-align: middle;
 		}
 		#wincontent {
-			margin:15% auto;
+			margin:5% auto;
 			background-color: #fff;
-			width:100%;
-			height:100%;
+			width:90%;
 			text-align: center;
 			vertical-align: middle;
-			font-size:32px;
+			font-size:18px;
+			display:none;
 		}
 		#homecontent {
 			margin:15% auto;
@@ -245,15 +161,16 @@
 			height:100%;
 			text-align: center;
 			vertical-align: middle;
-			font-size:32px;
+			font-size:28px;
+			font-style:italic;
 		}
 		#collectioncontent {
-			margin:15% auto;
-			color: #fff;
-			width:90%;
+			margin:5% auto;
+			color: #000;
+			width:100%;
 			height:100%;
 			text-align: center;
-			vertical-align: middle;
+			vertical-align: top;
 			font-size:32px;
 		}
 		@keyframes animatetop {
@@ -278,23 +195,23 @@
 <body>
 <canvas id="ctmp" width="100" height="100" style="display:none"></canvas>
 <div id="home"><div id="homecontent">
-	<h1>SciFi Alchemy</h1>
+	<canvas id="homecanvas" width="400" height="600" style="position:fixed;top:0;left:0;z-index:-1"></canvas>
+	<h1 style="font-family:Arial Black">SCI-FI ALCHEMY</h1>
 	<div id="playbutton">PLAY</div>
 	<div id="newgamebutton">NEW GAME</div>
 	<div id="soundbutton">SOUND ON</div>
 	<div id="fullscreenbutton">FULL SCREEN</div>
-	<div style="font-size:16px"><h3>Instructions:</h3><h4>Combine elements to find science fiction ideas, characters and shows.</h4>Drag elements into the forge area. Place an element on top of another see if they combine. <b>Elements can sometimes combine with themselves!</b></b></div>
-	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com">JS13K Games</a> 2021.</div>
+	<div style="font-size:16px"><h4>Combine elements to find science fiction ideas, characters and shows.</h4>Drag elements into the forge area. Place an element on top of another see if they combine. <b>Elements can sometimes combine with themselves!</b></b></div>
+	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com" style="color:#fff">JS13K Games</a> 2021.</div>
 </div></div>
-<div id="collection"><div id="collectioncontent"></div></div>
-<div id="win"><div id="wincontent"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><div id="newgamebutton2">NEW GAME</div></div></div>
+<div id="collection"><div id="wincontent"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><span id="newgamebutton2">NEW GAME?</span></div><div id="collectioncontent"></div></div>
 <div id="modal"><div id="modalcontent"><h1 id="discovery"></h1><div><img id="discoveryimage" src="" width="100" height="100"></div><h2 id="discoverydesc" style="padding:10%"></h2></div></div>
 <div class="outer">
 	<div class="upper">
 		<div id="btnhome"><button id="homebutton">🏠</button></div>
 		<div id="title"><h1><span id="score">0</span>/<span id="max">0</span> discovered</h1></div>
+		<div id="btnhint"><button id="hint" style="opacity:.3;font-size:30px">💡</button></div>
 		<div id="btncollection"><button id="collectionbutton">🏆</button></div>
-		<!--<div id="screen"><button id="goFS" style="background-image: url('data:image/gif;base64,R0lGODlhMgAyAKIAAAAAAP///4CAgDMzM6SkpMzMzA0NDUBAQCH5BAAHAP8ALAAAAAAyADIAAAO1GLrc/jDKSau9OOvNu1eFcAxkSRIZYZqHUESCAcw0LWRCrRs3dOi63iUHpB0ig5lhdUoxBzLAADmbfqhSrPX6SGYh3i23EdaOu1XzmZwGt9eLsvsLV8jr+Lx+z+/7/4CBgoOEhYaHiImKi4wYd3WPbHSQbw6Ra5dxlXCZdpuYn5qTnKGeo6CnomKkqaZLTCgYKkxRqww/RTNCFkS5RxAxuQC7Fb1APBEhI0+xF7NMLS+N09SFCQA7')"></button></div>-->
 	</div>
 	<div id="forge" class="forge drop move">
 		<div id="trash">🗑️</div>
@@ -305,7 +222,7 @@
 			<div><button style="transform:scaleY(-1)"><img id="down" width=30 height="80" src="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' height='100' width='50'%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='9' y1='85' x2='25' y2='17'/%3E%3Cline fill='none' stroke='%23000' stroke-width='6' x1='41' y1='85' x2='25' y2='17'/%3E%3Ccircle stroke='none' fill='%23000' cx='25' cy='17' r='3'/%3E%3C/svg%3E"></button></div>
 		</div>
 		<div id="pantry" class="copy">
-			<div style="position:relative;top:5000px">.</div>
+			<div style="position:relative;top:5000px" id="spacer">.</div>
 		</div>
 	</div>
 </div>
@@ -314,18 +231,24 @@ var modal = document.getElementById('modal');
 var home = document.getElementById('home');
 var ctmp = document.getElementById('ctmp');
 var collection = document.getElementById('collection');
-prepButtons();
+var hintTime = 30000;
+var hintInterval = setInterval(enableHint, hintTime);
+var hintsEnabled = false;
 prepSlots();
 prepElements();
 prepIcons();
+setTimeout(prepHome,500);
 goHome();
-//finalize();
+var touchinprogress=false;
 (D=e=>{
 	pointercancel=e=>{
 		D.n.remove();
 		if (D.g.m) D.g.m.remove();
+		touchinprogress=false;
 	}
 	pointerdown=e=>{
+		if(touchinprogress)return;
+		touchinprogress=true;
 		e.preventDefault();
 		D.w = 1;
 		D.g = null;
@@ -363,6 +286,8 @@ goHome();
 			toggleSound();
 		} else if (D.g && D.g.id == 'fullscreenbutton') {
 			toggleFullScreen();
+		} else if (D.g && D.g.id == 'hint' && hintsEnabled) {
+			showHint();
 		}
 		while(D.g != document && !D.g.classList.contains("drag")){
 			D.g = D.g.parentNode;
@@ -401,6 +326,7 @@ goHome();
 	}
 
 	pointerup=e=>{
+		touchinprogress=false;
 		e.preventDefault();
 		D.w = 0;
 		if(e.touches && D.X){
@@ -415,6 +341,7 @@ goHome();
 		if(D.n){
 			if (D.p.classList.contains("ingredient")){
 				moves++;
+				storeMoves(moves);
 				var id1 = D.p.getAttribute('elid');
 				var id2 = D.n.getAttribute('elid');
 				var result = findResult(id1,id2);
@@ -438,8 +365,8 @@ goHome();
 						o.style.display = 'inline';
 					}
 					if (!discoveries[result[0]]) {
-						//if (!o.childNodes[0].classList.contains('found')) {
 						document.getElementById('discovery').innerText = elements[result[0]][0];
+						document.getElementById('discoveryimage').style.display = 'inline';
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
 						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
 						modal.style.display = 'block';
@@ -455,7 +382,6 @@ goHome();
 							lastrand=rand;
 						} else pl(result[1]);
 					}
-					//o.childNodes[0].className += ' found';
 					score();
 					return;
 				}
@@ -486,7 +412,6 @@ goHome();
 	addEventListener("mouseup",pointerup);
 	addEventListener("touchend",pointerup);
 })();
-sortSlots();
 </script>
 </body>
 </html>
