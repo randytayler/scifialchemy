@@ -57,11 +57,6 @@ function prepElements(){
 					var y = pos[b][1];
 					if (pos[b][2]) var size = pos[b][2];
 					else var size = 70;
-				} else {
-					console.log('big');
-					var x = 0;
-					var y = 99;
-					var size = 70;
 				}
 				drawEmoji(e, icon[b], x, y, size);
 			}
@@ -87,7 +82,6 @@ function prepIcons(){
 			document.getElementById('pantrySlot'+e).appendChild(desc);
 			document.getElementById('pantrySlot'+e).style.display='none';
 			if (final) {
-				console.log(e);
 				var img2 = img.cloneNode();
 				img2.id = 'coll' + e;
 				document.getElementById('trophySlot' + e).appendChild(img2);
@@ -97,7 +91,6 @@ function prepIcons(){
 		} else {
 			var final = elements[e][4] == 1 ? true : false;
 			if (final) {
-				console.log(e);
 				var pantrySlot = document.getElementById('pantrySlot'+e);
 				var img = pantrySlot.children[0];
 				var desc = pantrySlot.children[1].cloneNode(true);
@@ -164,6 +157,7 @@ function prepHome(){
 	hcx.globalAlpha = .3;
 	hcx.drawImage(document.getElementById('i72'),10,230);
 	hcx.drawImage(document.getElementById('i30'),270,230);
+	document.getElementById('home').style.backgroundImage = 'url('+document.getElementById('homecanvas').toDataURL()+')';
 }
 
 function store(discoveredElements) {
@@ -264,9 +258,9 @@ function enableHint(){
 	hintsEnabled = true;
 }
 function showHint(){
-	document.getElementById('discovery').innerText = findHint();
+	document.getElementById('discovery').innerText = '';
 	document.getElementById('discoveryimage').style.display = 'none';
-	document.getElementById('discoverydesc').innerHTML = '';
+	document.getElementById('discoverydesc').innerHTML = findHint();
 	modal.style.display = 'block';
 }
 function findHint(){
