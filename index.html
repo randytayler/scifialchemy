@@ -192,6 +192,7 @@
 		.focusin{
 			animation-name:focus;
 			animation-duration: 1.5s;
+			font-family:Arial Black;
 		}
 		#trash{
 			position:relative;
@@ -215,26 +216,27 @@
 		.movie{
 			border:4px solid #000;
 		}
+		a{color:#fff}
 	</style>
 </head>
 <body>
 <canvas id="ctmp" width="100" height="100" style="display:none"></canvas>
 <canvas id="homecanvas" width="400" height="600" style="display:none"></canvas>
 <div id="home"><div id="homecontent">
-	<h1 style="font-family:Arial Black" class="focusin">SCI-FI<br>ALCHEMY</h1>
+	<h1 class="focusin">SCI-FI<br>ALCHEMY</h1>
 	<span id="playbutton" class="btn">PLAY</span><br>
 	<span id="newgamebutton" class="btn">NEW GAME</span><br>
 	<span id="soundbutton" class="btn">SOUND ON</span><br>
 	<span id="fullscreenbutton" class="btn">FULL SCREEN</span><br>
 	<div style="font-size:16px"><h4>Combine elements to find science fiction<br>ideas, characters and shows.</h4>Drag elements into the forge area. Place an<br>element on top of another (including<br>themselves) to see if they combine.<br><br>Web-monetized players get new hints<br>enabled twice as quickly.</div>
-	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com" style="color:#fff">JS13K Games</a> 2021.</div>
+	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com">JS13K Games</a> 2021.</div>
 </div></div>
 <div id="collection" class="trophy"><div id="wincontent" class="trophy"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><span id="newgamebutton2">NEW GAME?</span></div><div id="collectioncontent" class="trophy"></div><div id="finalcontent" class="trophy"></div></div>
 <div id="modal"><div id="modalcontent"><h1 id="discovery"></h1><div><img id="discoveryimage" src="" width="100" height="100"></div><h2 id="discoverydesc" style="padding:10%"></h2></div></div>
 <div class="outer">
 	<div class="upper">
 		<div id="btnhome"><button id="homebutton">🏠</button></div>
-		<div id="title"><h1 style="display:inline"><span id="score">0</span>/<span id="max">0</span> discovered</h1></div>
+		<div id="title"><h1><span id="score">0</span>/<span id="max">0</span> discovered</h1></div>
 		<div id="btnhint"><button id="hint" style="opacity:.3;font-size:30px">💡</button></div>
 		<div id="btncollection"><span id="collectionbutton">🏆</span><div id="collectionnumbers">0/13</div></div>
 	</div>
