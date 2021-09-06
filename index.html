@@ -93,6 +93,15 @@
 		}
 		#homebutton, #collectionbutton{
 			font-size:30px;
+			position:relative;
+		}
+		#collectionnumbers {
+			position:relative;
+			top:-3px;
+			left:0px;
+			font-weight: bold;
+			font-size:14px;
+			background-color:rgba(255,255,255,.8);
 		}
 		#title {
 			grid-column-start:2;
@@ -105,7 +114,7 @@
 			grid-column-end:5;
 		}
 		#btncollection {
-			text-align:right;
+			text-align:center;
 			grid-column-start:5;
 			grid-column-end:6;
 		}
@@ -164,11 +173,10 @@
 		#homecontent span, #homecontent div{
 			font-style:normal;
 		}
-		#collectioncontent {
+		#collectioncontent, #finalcontent {
 			margin:20px auto;
 			color: #000;
 			width:100%;
-			height:100%;
 			text-align: center;
 			vertical-align: top;
 			font-size:32px;
@@ -204,6 +212,9 @@
 		.btn {
 			cursor: pointer;
 		}
+		.movie{
+			border:4px solid #000;
+		}
 	</style>
 </head>
 <body>
@@ -218,14 +229,14 @@
 	<div style="font-size:16px"><h4>Combine elements to find science fiction<br>ideas, characters and shows.</h4>Drag elements into the forge area. Place an<br>element on top of another (including<br>themselves) to see if they combine.<br><br>Web-monetized players get new hints<br>enabled twice as quickly.</div>
 	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com" style="color:#fff">JS13K Games</a> 2021.</div>
 </div></div>
-<div id="collection"><div id="wincontent"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><span id="newgamebutton2">NEW GAME?</span></div><div id="collectioncontent"></div></div>
+<div id="collection" class="trophy"><div id="wincontent" class="trophy"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><span id="newgamebutton2">NEW GAME?</span></div><div id="collectioncontent" class="trophy"></div><div id="finalcontent" class="trophy"></div></div>
 <div id="modal"><div id="modalcontent"><h1 id="discovery"></h1><div><img id="discoveryimage" src="" width="100" height="100"></div><h2 id="discoverydesc" style="padding:10%"></h2></div></div>
 <div class="outer">
 	<div class="upper">
 		<div id="btnhome"><button id="homebutton">🏠</button></div>
 		<div id="title"><h1 style="display:inline"><span id="score">0</span>/<span id="max">0</span> discovered</h1></div>
 		<div id="btnhint"><button id="hint" style="opacity:.3;font-size:30px">💡</button></div>
-		<div id="btncollection"><button id="collectionbutton">🏆</button></div>
+		<div id="btncollection"><span id="collectionbutton">🏆</span><div id="collectionnumbers">0/13</div></div>
 	</div>
 	<div id="forge" class="forge drop move">
 		<div id="trash">🗑️</div>
@@ -292,7 +303,7 @@ var touchinprogress=false;
 			scrollDown();
 		} else if (D.g && D.g.id == 'modalcontent' || (D.g.parentNode && D.g.parentNode.id == 'modalcontent' || D.g.parentNode.parentNode && D.g.parentNode.parentNode.id == 'modalcontent')) {
 			closeModal();
-		} else if (D.g && D.g.id == 'collectioncontent' || (D.g.parentNode && D.g.parentNode.id == 'collectioncontent' || D.g.parentNode.parentNode && D.g.parentNode.parentNode.id == 'collectioncontent')) {
+		} else if (D.g && D.g.classList.contains("trophy")) {
 			closeCollection();
 		} else if (D.g && D.g.id == 'trash') {
 			clearForge();
@@ -390,11 +401,21 @@ var touchinprogress=false;
 						store(discoveries);
 						if (elements[result[0]][4]){
 							document.getElementById('trophySlot'+result[0]).style.display='inline';
+							console.log(result[0]);
+							if (movies.includes(result[0])) {
+								console.log('showing');
+								document.getElementById('trophySlot' + result[0]).style.opacity = 1;
+							}
 						}
 						if (result[1] == 'n') {
 							var rand = Math.floor(Math.random()*non.length)
 							while (rand == lastrand) { rand = Math.floor(Math.random()*non.length) }
 							playSong(non[rand]);
+							lastrand=rand;
+						} else if (result[1] == 'm') {
+							var rand = Math.floor(Math.random()*non2.length)
+							while (rand == lastrand) { rand = Math.floor(Math.random()*non2.length) }
+							playSong(non2[rand]);
 							lastrand=rand;
 						} else playSong(result[1]);
 					}
