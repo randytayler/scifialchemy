@@ -38,8 +38,11 @@ function prepSlots(){
 		if (elements[e][4]) {
 			var slot = document.createElement('div');
 			slot.id = 'trophySlot' + e;
-			slot.className = 'pantrySlot';
-			document.getElementById('collectioncontent').appendChild(slot);
+			slot.className = 'pantrySlot trophy';
+			if(movies.includes(e))
+				document.getElementById('collectioncontent').appendChild(slot);
+			else
+				document.getElementById('finalcontent').appendChild(slot);
 		}
 	}
 }
@@ -84,6 +87,8 @@ function prepIcons(){
 			if (final) {
 				var img2 = img.cloneNode();
 				img2.id = 'coll' + e;
+				img2.className += " trophy";
+				if (movies.includes(e)) img2.className +=" movie";
 				document.getElementById('trophySlot' + e).appendChild(img2);
 				document.getElementById('trophySlot' + e).appendChild(desc);
 				document.getElementById('trophySlot' + e).style.display = 'none';
@@ -97,6 +102,8 @@ function prepIcons(){
 				var img2 = img.cloneNode();
 				desc.id = 'descoll' + e;
 				img2.id = 'coll' + e;
+				img2.className += " trophy";
+				if (movies.includes(e)) img2.className +=" movie";
 				document.getElementById('trophySlot' + e).appendChild(img2);
 				document.getElementById('trophySlot' + e).appendChild(desc);
 				document.getElementById('trophySlot' + e).style.display = 'none';
@@ -128,6 +135,11 @@ function finalize(){
 		} else {
 			document.getElementById('pantrySlot'+i).style.display='none';
 		}
+	}
+	var foundmovies = 0;
+	for(var e=0;e<movies.length;e++) {
+		document.getElementById('trophySlot' + movies[e]).style.display = 'inline';
+		if (!discoveries[movies[e]]) document.getElementById('trophySlot' + movies[e]).style.opacity = .3;
 	}
 	document.getElementById('downbutton').src = makeSvg('p66600001M17,69L1,1c0,0,15,21,32,0L17,69z;i17693301000non02;pnonCCC02M1,1c0,0,15,21,32,0;i17690101CCCnon02',40,80);
 	document.getElementById('upbutton').src = makeSvg('p66600001M17,0L1,68c0,0,15-21,32,0L17,0z;i33681700000non02;pnon00002M1,68c0,0,15-21,32,0;i01681700CCCnon02',40,80);
@@ -198,6 +210,11 @@ function score(){
 	if (score == discoveries.length) {
 		win();
 	}
+	var foundmovies = 0;
+	for(var e=0;e<movies.length;e++) {
+		if (discoveries[movies[e]]) foundmovies++;
+	}
+	document.getElementById('collectionnumbers').innerText = foundmovies + '/13';
 }
 function win(){
 	document.getElementById('wincontent').style.display="block";
