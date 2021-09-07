@@ -18,7 +18,8 @@
 			border:none;
 		}
 		#forge {
-			width:100%;
+			border:2px solid #000;
+			width:99%;
 			height:200px;
 			min-height:200px;
 			background-color:#eee;
@@ -227,12 +228,11 @@
 	<span id="playbutton" class="btn">PLAY</span><br>
 	<span id="newgamebutton" class="btn">NEW GAME</span><br>
 	<span id="soundbutton" class="btn">SOUND ON</span><br>
-	<span id="fullscreenbutton" class="btn">FULL SCREEN</span><br>
-	<div style="font-size:16px"><h4>Combine elements to find science fiction<br>ideas, characters and shows.</h4>Drag elements into the forge area. Place an<br>element on top of another (including<br>themselves) to see if they combine.<br><br>Web-monetized players get new hints<br>enabled twice as quickly.</div>
+	<div style="font-size:16px"><h4>Combine elements to find science fiction<br>ideas, characters and shows.</h4><a href="https://coil.com">Web-monetized</a> players get new hints<br>enabled twice as quickly.</div>
 	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com">JS13K Games</a> 2021.</div>
 </div></div>
 <div id="collection" class="trophy"><div id="wincontent" class="trophy"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><span id="newgamebutton2">NEW GAME?</span></div><div id="collectioncontent" class="trophy"></div><div id="finalcontent" class="trophy"></div></div>
-<div id="modal"><div id="modalcontent"><h1 id="discovery"></h1><div><img id="discoveryimage" src="" width="100" height="100"></div><h2 id="discoverydesc" style="padding:10%"></h2></div></div>
+<div id="modal" class="modal"><div id="modalcontent" class="modal"><h1 id="discovery" class="modal"></h1><div class="modal"><img id="discoveryimage" class="modal" src="" width="100" height="100"></div><h2 class="modal" id="discoverydesc" style="padding:10%"></h2></div></div>
 <div class="outer">
 	<div class="upper">
 		<div id="btnhome"><button id="homebutton">🏠</button></div>
@@ -303,7 +303,7 @@ var touchinprogress=false;
 			scrollUp();
 		} else if (D.g && D.g.id == 'downbutton') {
 			scrollDown();
-		} else if (D.g && D.g.id == 'modalcontent' || (D.g.parentNode && D.g.parentNode.id == 'modalcontent' || D.g.parentNode.parentNode && D.g.parentNode.parentNode.id == 'modalcontent')) {
+		} else if (D.g && D.g.classList.contains("modal")) {
 			closeModal();
 		} else if (D.g && D.g.classList.contains("trophy")) {
 			closeCollection();
@@ -311,8 +311,6 @@ var touchinprogress=false;
 			clearForge();
 		} else if (D.g && D.g.id == 'soundbutton') {
 			toggleSound();
-		} else if (D.g && D.g.id == 'fullscreenbutton') {
-			toggleFullScreen();
 		} else if (D.g && D.g.id == 'hint' && hintsEnabled) {
 			showHint();
 		}
@@ -403,9 +401,7 @@ var touchinprogress=false;
 						store(discoveries);
 						if (elements[result[0]][4]){
 							document.getElementById('trophySlot'+result[0]).style.display='inline';
-							console.log(result[0]);
 							if (movies.includes(result[0])) {
-								console.log('showing');
 								document.getElementById('trophySlot' + result[0]).style.opacity = 1;
 							}
 						}
