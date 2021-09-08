@@ -3,7 +3,7 @@ var discoveries=[];
 var pantry=[];
 var lastrand=-1;
 var sound=true;
-var moves=0;
+var moves=localStorage.getItem('sfa_moves') ? localStorage.getItem('sfa_moves') : 0;
 
 function findResult(id1,id2){
 	for (var i=0; i<recipes.length; i++){

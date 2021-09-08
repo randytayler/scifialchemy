@@ -267,11 +267,21 @@ prepIcons();
 setTimeout(prepHome,0);
 goHome();
 var touchinprogress=false;
+function bugfix(){
+	var imgs = document.getElementsByTagName("img");
+	for (var i=0; i<imgs.length; i++){
+		if (imgs[i].parentNode.nodeName=='BODY'){
+			console.log("FIXING");
+			imgs[i].remove();
+		}
+	}
+}
 (D=e=>{
 	pointercancel=e=>{
 		D.n.remove();
 		if (D.g.m) D.g.m.remove();
 		touchinprogress=false;
+		bugfix();
 	}
 	pointerdown=e=>{
 		if(touchinprogress)return;
@@ -366,7 +376,7 @@ var touchinprogress=false;
 		if(D.n){
 			if (D.p.classList.contains("ingredient")){
 				moves++;
-				storeMoves(moves);
+				storeMoves();
 				var id1 = D.p.getAttribute('elid');
 				var id2 = D.n.getAttribute('elid');
 				var result = findResult(id1,id2);
@@ -393,7 +403,7 @@ var touchinprogress=false;
 						resetHints();
 						document.getElementById('discovery').innerText = elements[result[0]][0];
 						document.getElementById('discoveryimage').style.display = 'inline';
-						document.getElementById('discoveryimage').className = 'focusin';
+						document.getElementById('discoveryimage').className = 'focusin modal';
 						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
 						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
 						modal.style.display = 'block';
@@ -438,6 +448,7 @@ var touchinprogress=false;
 			}
 			D.n.remove();
 		}
+		bugfix();
 	}
 	addEventListener("touchcancel",pointercancel);
 	addEventListener("mousedown",pointerdown);
