@@ -26,10 +26,12 @@ function n(e,x) {
 var soundInterval = false;
 var currentSong = false;
 var currentNote = false;
-function playSong(song){
-	currentSong = song;
-	currentNote = 0;
-	soundInterval = setInterval(playNote,100);
+function playSong(song) {
+	if (sound) {
+		currentSong = song;
+		currentNote = 0;
+		soundInterval = setInterval(playNote, 100);
+	}
 }
 function playNote(){
 	for(var i=0;i<currentSong.length;i++){
