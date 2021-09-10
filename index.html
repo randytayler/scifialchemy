@@ -3,10 +3,6 @@
 	<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="monetization" content="$ilp.uphold.com/U9iHfppnha6L">
 	<title>SciFi Alchemy</title>
-	<script src="elements.js"></script>
-	<script src="alchemy.js"></script>
-	<script src="music.js"></script>
-	<script src="svg.js"></script>
 	<style>
 		body {
 			margin:0px;
@@ -152,6 +148,7 @@
 			text-align: center;
 			vertical-align: middle;
 		}
+		#modalcontent a{color:#999}
 		#wincontent {
 			margin:5% auto;
 			background-color: #fff;
@@ -193,7 +190,7 @@
 		.focusin{
 			animation-name:focus;
 			animation-duration: 1.5s;
-			font-family:Arial Black;
+			font-family:Impact,Arial Black;
 		}
 		#trash{
 			position:relative;
@@ -225,11 +222,11 @@
 <canvas id="homecanvas" width="400" height="600" style="display:none"></canvas>
 <div id="home"><div id="homecontent">
 	<h1 class="focusin">SCI-FI<br>ALCHEMY</h1>
-	<span id="playbutton" class="btn">PLAY</span><br>
-	<span id="newgamebutton" class="btn">NEW GAME</span><br>
-	<span id="soundbutton" class="btn">SOUND ON</span><br>
-	<div style="font-size:16px"><h4>Combine elements to find science fiction<br>ideas, characters and shows.</h4><a href="https://coil.com">Web-monetized</a> players get new hints<br>enabled twice as quickly.<br><br>(Try the <a href="https://pumabrowser.com">Puma browser</a> on mobile devices.)</div>
-	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com">JS13K Games</a> 2021.</div>
+	<span id="playbutton" class="btn" onclick="play()">PLAY</span><br>
+	<span id="newgamebutton" class="btn" onclick="newgame()">NEW GAME</span><br>
+	<span id="soundbutton" class="btn" onclick="toggleSound()">SOUND ON</span><br>
+	<div style="font-size:16px"><h4>Combine elements to find science fiction<br>ideas, characters and shows.</h4></div>
+	<div style="font-size:12px;padding-top:20px">Created by Randy Tayler for <a href="http://js13kgames.com" class="outlink">JS13K Games</a> 2021.</div>
 </div></div>
 <div id="collection" class="trophy"><div id="wincontent" class="trophy"><h1>100% COMPLETE!</h1><h1>🏆</h1><h2 id="moves"></h2><span id="newgamebutton2">NEW GAME?</span></div><div id="collectioncontent" class="trophy"></div><div id="finalcontent" class="trophy"></div></div>
 <div id="modal" class="modal"><div id="modalcontent" class="modal"><h1 id="discovery" class="modal"></h1><div class="modal"><img id="discoveryimage" class="modal" src="" width="100" height="100"></div><h2 class="modal" id="discoverydesc" style="padding:10%"></h2></div></div>
@@ -253,211 +250,10 @@
 		</div>
 	</div>
 </div>
-<script>
-var modal = document.getElementById('modal');
-var home = document.getElementById('home');
-var ctmp = document.getElementById('ctmp');
-var collection = document.getElementById('collection');
-var hintTime = 30000;
-var hintInterval = false;
-var hintsEnabled = false;
-prepSlots();
-prepElements();
-prepIcons();
-setTimeout(prepHome,0);
-goHome();
-var touchinprogress=false;
-function bugfix(){
-	var imgs = document.getElementsByTagName("img");
-	for (var i=0; i<imgs.length; i++){
-		if (imgs[i].parentNode.nodeName=='BODY'){
-			console.log("FIXING");
-			imgs[i].remove();
-		}
-	}
-}
-(D=e=>{
-	pointercancel=e=>{
-		D.n.remove();
-		if (D.g.m) D.g.m.remove();
-		touchinprogress=false;
-		bugfix();
-	}
-	pointerdown=e=>{
-		if(touchinprogress)return;
-		touchinprogress=true;
-		e.preventDefault();
-		D.w = 1;
-		D.g = null;
-		D.n = null;
-		if(e.touches){
-			D.g = document.elementFromPoint(
-				e.touches[0].pageX,
-				e.touches[0].pageY
-			);
-		} else {
-			D.g = e.target;
-		}
-		D.scroll = e.target.parentElement.parentElement.scrollTop;
-		if(D.g && D.g.id == 'goFS'){
-			toggleFullScreen();
-		} else if (D.g && D.g.id == 'homebutton') {
-			goHome();
-		} else if (D.g && D.g.id == 'collectionbutton') {
-			goColl();
-		} else if (D.g && D.g.id == 'playbutton') {
-			play();
-		} else if (D.g && (D.g.id == 'newgamebutton' || D.g.id=='newgamebutton2')) {
-			newgame();
-		} else if (D.g && D.g.id == 'upbutton') {
-			scrollUp();
-		} else if (D.g && D.g.id == 'downbutton') {
-			scrollDown();
-		} else if (D.g && D.g.classList.contains("modal")) {
-			closeModal();
-		} else if (D.g && D.g.classList.contains("trophy")) {
-			closeCollection();
-		} else if (D.g && D.g.id == 'trash') {
-			clearForge();
-		} else if (D.g && D.g.id == 'soundbutton') {
-			toggleSound();
-		} else if (D.g && D.g.id == 'hint' && hintsEnabled) {
-			showHint();
-		}
-		while(D.g != document && !D.g.classList.contains("drag")){
-			D.g = D.g.parentNode;
-		}
-		if(D.g == document){
-			D.g = null;
-		}
-		else if(D.g.parentNode.classList.contains("move") || D.g.parentNode.classList.contains("copy")){
-			D.X = e.touches ? e.touches[0].pageX : e.pageX;
-			D.Y = e.touches ? e.touches[0].pageY : e.pageY;
-			D.x = D.X - e.target.offsetLeft;
-			D.y = D.Y - e.target.offsetTop;
-			D.n = document.body.appendChild(D.g.cloneNode(true));
-			D.n.className = D.n.className.replace(/pantryIngredient/,'ingredient');
-			D.n.id = 'i' + ingredients.length++;
-			if(D.g.parentNode.classList.contains("move")){
-				D.g.style.visibility = "hidden";
-				D.g.m = D.g;
-			}
-			D.n.style.position = "absolute";
-			D.n.style.pointerEvents = "none";
-			D.n.style.left = D.X - D.x - 3 + "px";
-			D.n.style.top = D.Y - D.y - 3 + "px";
-		}
-	}
-	pointermove=e=>{
-		e.preventDefault();
-		if(D.w && D.n){
-			D.X = (e.touches ? e.touches[0].pageX : e.pageX);
-			D.Y = (e.touches ? e.touches[0].pageY : e.pageY);
-			D.n.style.left = D.X - D.x - 3 + "px";
-			D.n.style.top = D.Y - D.y - 3 - D.scroll + "px";
-			D.lastX = (e.touches ? e.touches[0].pageX : e.pageX);
-			D.lastY = (e.touches ? e.touches[0].pageY : e.pageY);
-		}
-	}
-
-	pointerup=e=>{
-		touchinprogress=false;
-		e.preventDefault();
-		D.w = 0;
-		if(e.touches && D.X){
-			D.p = document.elementFromPoint(
-				D.X,
-				D.Y
-			);
-		}
-		else {
-			D.p = e.target;
-		}
-		if(D.n){
-			if (D.p.classList.contains("ingredient")){
-				moves++;
-				storeMoves();
-				var id1 = D.p.getAttribute('elid');
-				var id2 = D.n.getAttribute('elid');
-				var result = findResult(id1,id2);
-				if (result.length > 0) {
-					imgId = pantry[result[0]];
-					c = document.getElementById('i' + imgId).cloneNode(true);
-					c.style.left = D.lastX - D.x - 3 + "px";
-					c.style.top = D.lastY - D.y - 3 - D.scroll + "px";
-					c.className = 'ingredient drag';
-					c.id = 'i' + (ingredients.length);
-					c.style.display = 'inline';
-					c.style.position = 'absolute';
-					ingredients[ingredients.length] = 'i' + (ingredients.length);
-					document.getElementById('forge').appendChild(c);
-					D.p.remove();
-					D.n.remove();
-					if (D.g.m) D.g.m.remove();
-
-					if (elements[result[0]][4] != 1) {
-						var o = document.getElementById('pantrySlot' + result[0]);
-						o.style.display = 'inline';
-					}
-					if (!discoveries[result[0]]) {
-						resetHints();
-						document.getElementById('discovery').innerText = elements[result[0]][0];
-						document.getElementById('discoveryimage').style.display = 'inline';
-						document.getElementById('discoveryimage').className = 'focusin modal';
-						document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
-						document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
-						modal.style.display = 'block';
-						discoveries[result[0]]=true;
-						store(discoveries);
-						if (elements[result[0]][4]){
-							document.getElementById('trophySlot'+result[0]).style.display='inline';
-							if (movies.includes(result[0])) {
-								document.getElementById('trophySlot' + result[0]).style.opacity = 1;
-							}
-						}
-						if (result[1] == 'n') {
-							var rand = Math.floor(Math.random()*non.length)
-							while (rand == lastrand) { rand = Math.floor(Math.random()*non.length) }
-							playSong(non[rand]);
-							lastrand=rand;
-						} else if (result[1] == 'm') {
-							var rand = Math.floor(Math.random()*non2.length)
-							while (rand == lastrand) { rand = Math.floor(Math.random()*non2.length) }
-							playSong(non2[rand]);
-							lastrand=rand;
-						} else playSong(result[1]);
-					}
-					score();
-					return;
-				}
-			}
-			while (D.p != document && !D.p.classList.contains("drop")) {
-				D.p = D.p.parentNode;
-			}
-			if (D.p != document) {
-				D.f = D.p.appendChild(D.n.cloneNode(true));
-				D.f.style.position = "absolute";
-				D.f.style.pointerEvents = "";
-				D.X = e.pageX;
-				D.Y = e.pageY;
-				D.f.style.left = D.X - D.x - 3 + "px";
-				D.f.style.top = D.Y - D.y - 3 + "px";
-			}
-			if (D.g.m) {
-				D.g.remove();
-			}
-			D.n.remove();
-		}
-		bugfix();
-	}
-	addEventListener("touchcancel",pointercancel);
-	addEventListener("mousedown",pointerdown);
-	addEventListener("touchstart",pointerdown, {passive: false});
-	addEventListener("mousemove",pointermove);
-	addEventListener("touchmove",pointermove, {passive: false});
-	addEventListener("mouseup",pointerup);
-	addEventListener("touchend",pointerup);
-})();
-</script>
+<script src="elements.js"></script>
+<script src="alchemy.js"></script>
+<script src="music.js"></script>
+<script src="svg.js"></script>
+<script src="index.js"></script>
 </body>
 </html>

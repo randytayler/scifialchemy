@@ -4,7 +4,7 @@ var pantry=[];
 var lastrand=-1;
 var sound=true;
 var moves=localStorage.getItem('sfa_moves') ? localStorage.getItem('sfa_moves') : 0;
-
+var D={};
 function findResult(id1,id2){
 	for (var i=0; i<recipes.length; i++){
 		if ((recipes[i].i[0] == id1) && (recipes[i].i[1] == id2)) return [recipes[i].r,recipes[i].m];
@@ -14,7 +14,7 @@ function findResult(id1,id2){
 }
 
 function makeCanvas(i) {
-	var cnew = ctmp.cloneNode(true);
+	var cnew = document.getElementById('ctmp').cloneNode(true);
 	cnew.setAttribute('id','c' + i);
 	document.body.appendChild(cnew);
 	return cnew;
@@ -207,10 +207,10 @@ function win(){
 	goColl();
 }
 function closeModal(){
-	modal.style.display="none";
+	document.getElementById('modal').style.display="none";
 }
 function closeCollection(){
-	collection.style.display="none";
+	document.getElementById('collection').style.display="none";
 }
 function clearForge(){
 	var forgeElements = document.getElementById('forge').getElementsByTagName('img');
@@ -218,7 +218,7 @@ function clearForge(){
 	for (var f=0; f<count; f++) forgeElements[0].remove();
 }
 function goHome(){
-	home.style.display="block";
+	document.getElementById('home').style.display="block";
 	if (document.monetization) {
 		document.monetization.addEventListener('monetizationstart', () => {
 			hintTime = 15000;
@@ -226,14 +226,203 @@ function goHome(){
 	}
 }
 function goColl(){
-	collection.style.display="block";
+	document.getElementById('collection').style.display="block";
 }
 function play(){
 	hintInterval = setInterval(enableHint, hintTime);
 	finalize();
 	score();
-	home.style.display="none";
+	document.getElementById('home').style.display="none";
 	document.getElementById('playbutton').innerText = 'CONTINUE';
+	if (!listened) {
+		(D = e => {
+			pointercancel = e => {
+				D.n.remove();
+				if (D.g.m) D.g.m.remove();
+				touchinprogress = false;
+				bugfix();
+			}
+			pointerdown = e => {
+				if (touchinprogress) return;
+				touchinprogress = true;
+				e.preventDefault();
+				D.w = 1;
+				D.g = null;
+				D.n = null;
+				if (e.touches) {
+					D.g = document.elementFromPoint(
+						e.touches[0].pageX,
+						e.touches[0].pageY
+					);
+				} else {
+					D.g = e.target;
+				}
+				D.scroll = e.target.parentElement.parentElement.scrollTop;
+				if (D.g && D.g.id == 'homebutton') {
+					goHome();
+				} else if (D.g && D.g.id == 'collectionbutton') {
+					goColl();
+				} else if (D.g && D.g.id == 'playbutton') {
+					play();
+				} else if (D.g && (D.g.id == 'newgamebutton' || D.g.id == 'newgamebutton2')) {
+					newgame();
+				} else if (D.g && D.g.id == 'upbutton') {
+					scrollUp();
+				} else if (D.g && D.g.id == 'downbutton') {
+					scrollDown();
+				} else if (D.g && D.g.classList.contains("outlink")) {
+					go(D.g.getAttribute('href'));
+				} else if (D.g && D.g.classList.contains("modal")) {
+					closeModal();
+				} else if (D.g && D.g.classList.contains("trophy")) {
+					closeCollection();
+				} else if (D.g && D.g.id == 'trash') {
+					clearForge();
+				} else if (D.g && D.g.id == 'soundbutton') {
+					toggleSound();
+				} else if (D.g && D.g.id == 'hint' && hintsEnabled) {
+					showHint();
+				} else if (D.g && D.g.id == 'hint') {
+					upsell();
+				}
+				while (D.g != document && !D.g.classList.contains("drag")) {
+					D.g = D.g.parentNode;
+				}
+				if (D.g == document) {
+					D.g = null;
+				} else if (D.g.parentNode.classList.contains("move") || D.g.parentNode.classList.contains("copy")) {
+					D.X = e.touches ? e.touches[0].pageX : e.pageX;
+					D.Y = e.touches ? e.touches[0].pageY : e.pageY;
+					D.x = D.X - e.target.offsetLeft;
+					D.y = D.Y - e.target.offsetTop;
+					D.n = document.body.appendChild(D.g.cloneNode(true));
+					D.n.className = D.n.className.replace(/pantryIngredient/, 'ingredient');
+					D.n.id = 'i' + ingredients.length++;
+					if (D.g.parentNode.classList.contains("move")) {
+						D.g.style.visibility = "hidden";
+						D.g.m = D.g;
+					}
+					D.n.style.position = "absolute";
+					D.n.style.pointerEvents = "none";
+					D.n.style.left = D.X - D.x - 3 + "px";
+					D.n.style.top = D.Y - D.y - 3 + "px";
+				}
+			}
+			pointermove = e => {
+				e.preventDefault();
+				if (D.w && D.n) {
+					D.X = (e.touches ? e.touches[0].pageX : e.pageX);
+					D.Y = (e.touches ? e.touches[0].pageY : e.pageY);
+					D.n.style.left = D.X - D.x - 3 + "px";
+					D.n.style.top = D.Y - D.y - 3 - D.scroll + "px";
+					D.lastX = (e.touches ? e.touches[0].pageX : e.pageX);
+					D.lastY = (e.touches ? e.touches[0].pageY : e.pageY);
+				}
+			}
+
+			pointerup = e => {
+				touchinprogress = false;
+				e.preventDefault();
+				D.w = 0;
+				if (e.touches && D.X) {
+					D.p = document.elementFromPoint(
+						D.X,
+						D.Y
+					);
+				} else {
+					D.p = e.target;
+				}
+				if (D.n) {
+					if (D.p.classList.contains("ingredient")) {
+						moves++;
+						storeMoves();
+						var id1 = D.p.getAttribute('elid');
+						var id2 = D.n.getAttribute('elid');
+						var result = findResult(id1, id2);
+						if (result.length > 0) {
+							imgId = pantry[result[0]];
+							c = document.getElementById('i' + imgId).cloneNode(true);
+							c.style.left = D.lastX - D.x - 3 + "px";
+							c.style.top = D.lastY - D.y - 3 - D.scroll + "px";
+							c.className = 'ingredient drag';
+							c.id = 'i' + (ingredients.length);
+							c.style.display = 'inline';
+							c.style.position = 'absolute';
+							ingredients[ingredients.length] = 'i' + (ingredients.length);
+							document.getElementById('forge').appendChild(c);
+							D.p.remove();
+							D.n.remove();
+							if (D.g.m) D.g.m.remove();
+
+							if (elements[result[0]][4] != 1) {
+								var o = document.getElementById('pantrySlot' + result[0]);
+								o.style.display = 'inline';
+							}
+							if (!discoveries[result[0]]) {
+								resetHints();
+								document.getElementById('discovery').innerText = elements[result[0]][0];
+								document.getElementById('discoveryimage').style.display = 'inline';
+								document.getElementById('discoveryimage').className = 'focusin modal';
+								document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
+								document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
+								document.getElementById('modal').style.display = 'block';
+								discoveries[result[0]] = true;
+								store(discoveries);
+								if (elements[result[0]][4]) {
+									document.getElementById('trophySlot' + result[0]).style.display = 'inline';
+									if (movies.includes(result[0])) {
+										document.getElementById('trophySlot' + result[0]).style.opacity = 1;
+									}
+								}
+								if (result[1] == 'n') {
+									var rand = Math.floor(Math.random() * non.length)
+									while (rand == lastrand) {
+										rand = Math.floor(Math.random() * non.length)
+									}
+									playSong(non[rand]);
+									lastrand = rand;
+								} else if (result[1] == 'm') {
+									var rand = Math.floor(Math.random() * non2.length)
+									while (rand == lastrand) {
+										rand = Math.floor(Math.random() * non2.length)
+									}
+									playSong(non2[rand]);
+									lastrand = rand;
+								} else playSong(result[1]);
+							}
+							score();
+							return;
+						}
+					}
+					while (D.p != document && !D.p.classList.contains("drop")) {
+						D.p = D.p.parentNode;
+					}
+					if (D.p != document) {
+						D.f = D.p.appendChild(D.n.cloneNode(true));
+						D.f.style.position = "absolute";
+						D.f.style.pointerEvents = "";
+						D.X = e.pageX;
+						D.Y = e.pageY;
+						D.f.style.left = D.X - D.x - 3 + "px";
+						D.f.style.top = D.Y - D.y - 3 + "px";
+					}
+					if (D.g.m) {
+						D.g.remove();
+					}
+					D.n.remove();
+				}
+				bugfix();
+			}
+			addEventListener("touchcancel", pointercancel);
+			addEventListener("mousedown", pointerdown);
+			addEventListener("touchstart", pointerdown, {passive: false});
+			addEventListener("mousemove", pointermove);
+			addEventListener("touchmove", pointermove, {passive: false});
+			addEventListener("mouseup", pointerup);
+			addEventListener("touchend", pointerup);
+		})();
+		listened = true;
+	}
 }
 function toggleSound(){
 	if (sound) {
@@ -263,7 +452,16 @@ function showHint(){
 	document.getElementById('discovery').innerText = '';
 	document.getElementById('discoveryimage').style.display = 'none';
 	document.getElementById('discoverydesc').innerHTML = findHint();
-	modal.style.display = 'block';
+	document.getElementById('modal').style.display = 'block';
+}
+function upsell(){
+	document.getElementById('discovery').innerText = 'Want more hints?';
+	document.getElementById('discoveryimage').style.display = 'none';
+	document.getElementById('discoverydesc').innerHTML = 'Hints recharge twice as fast for <a href="https://coil.com" class="outlink">web-monetized</a> players.<br><br>(Try the <a href="https://pumabrowser.com" class="outlink">Puma browser</a> on your mobile device.)';
+	document.getElementById('modal').style.display = 'block';
+}
+function go(href){
+	window.open(href, '_new');
 }
 function findHint(){
 	var hints = [];
