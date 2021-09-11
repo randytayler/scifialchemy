@@ -1,4 +1,4 @@
-function makeSvg(x,w,h){
+makeSvg=(x,w,h)=>{
 	var shapes = x.split(";");
 	var ret=[];
 	var music;
@@ -33,9 +33,8 @@ function makeSvg(x,w,h){
 	s.setAttribute('version','1.1');
 	var xml = (new XMLSerializer).serializeToString(s).replace(/1999\/xhtml/,'2000/svg');
 	return "data:image/svg+xml;charset=utf-8,"+xml;
-}
-
-function svg(x,e) {
+};
+svg=(x,e)=>{
 	var m=document.createElement('img');
 	m.src = makeSvg(x,99,99);
 	m.width=99;
@@ -49,8 +48,8 @@ function svg(x,e) {
 	desc.innerText = elements[e][0];
 	document.getElementById('pantrySlot'+e).appendChild(desc);
 	document.getElementById('pantrySlot'+e).style.display='none';
-}
-function svgR(x){
+};
+svgR=x=>{
 	var a=document.createElement('rect');
 	a.setAttribute('x',x.substr(1,2));
 	a.setAttribute('y',x.substr(3,2));
@@ -60,8 +59,8 @@ function svgR(x){
 	a.setAttribute('stroke',hex2rgb(x.substr(12)));
 	if (x.length>13) a.setAttribute('stroke-width',x.substr(15,2));
 	return a;
-}
-function svgY(x){
+};
+svgY=x=>{
 	var a=document.createElement('polygon');
 	a.setAttribute('fill',hex2rgb(x.substr(1,3)));
 	a.setAttribute('stroke',hex2rgb(x.substr(4,3)));
@@ -71,16 +70,16 @@ function svgY(x){
 	}
 	a.setAttribute('points',p.trim());
 	return a;
-}
-function svgP(x){
+};
+svgP=x=>{
 	var a=document.createElement('path');
 	a.setAttribute('fill',hex2rgb(x.substr(1,3)));
 	a.setAttribute('stroke',hex2rgb(x.substr(4,3)));
 	a.setAttribute('stroke-width',x.substr(7,2));
 	a.setAttribute('d',x.substr(9));
 	return a;
-}
-function svgE(x){
+};
+svgE=x=>{
 	var a=document.createElement('ellipse');
 	a.setAttribute('stroke',hex2rgb(x.substr(9,3)));
 	a.setAttribute('fill',hex2rgb(x.substr(12,3)));
@@ -90,8 +89,8 @@ function svgE(x){
 	a.setAttribute('rx',x.substr(5,2));
 	a.setAttribute('ry',x.substr(7,2));
 	return a;
-}
-function svgI(x){
+};
+svgI=x=>{
 	var a=document.createElement('line');
 	a.setAttribute('stroke-width',x.substr(15,2));
 	a.setAttribute('stroke',hex2rgb(x.substr(9,3)));
@@ -101,8 +100,8 @@ function svgI(x){
 	a.setAttribute('x2',x.substr(5,2));
 	a.setAttribute('y2',x.substr(7,2));
 	return a;
-}
-function svgC(x){
+};
+svgC=x=>{
 	var a=document.createElement('circle');
 	a.setAttribute('stroke',hex2rgb(x.substr(7,3)));
 	a.setAttribute('fill',hex2rgb(x.substr(10,3)));
@@ -111,8 +110,8 @@ function svgC(x){
 	a.setAttribute('cy',x.substr(3,2));
 	a.setAttribute('r',x.substr(5,2));
 	return a;
-}
-function hex2rgb(c){
+};
+hex2rgb=c=>{
 	if (c=='non') return "none";
 	return 'rgba('+parseInt(c.substr(0,1)+c.substr(0,1),16)+','+parseInt(c.substr(1,1)+c.substr(1,1),16)+','+parseInt(c.substr(2,1)+c.substr(2,1),16)+',255)';
-}
+};

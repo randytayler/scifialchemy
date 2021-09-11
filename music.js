@@ -1,4 +1,12 @@
-function n(e,x) {
+var tones = [130,138,146,155,165,175,185,196,208,221,234,248,263,279,295,313,332,352,373,395,419,444,471,499,529,123];
+var song=[];
+var A = new window.AudioContext;
+copy=D=>{
+	for (var d = 0; d<D.length; d++){
+		song[song.length] = D[d];
+	}
+}
+n=(e,x,s)=>{
 	for(V = x,
 		    b = (e, t, a, i) => Math.sin(e / t * 6.28 * a + i),
 		    w=(e,t)=>Math.sin(e / 44100 * t * 6.28 + b(e, 44100, t, 0) ** 2 + .75 * b(e, 44100, t, .25) + .1 * b(e, 44100, t, .5)),
@@ -10,36 +18,34 @@ function n(e,x) {
 		D[i] =
 			i < 88
 				? i / 88.2 * w(i, e)
-				: (1 - (i - 88.2) / (44100 * (V - .002))) ** ((.5 * Math.log(1e4 * e / 44100)) ** 2) * w(i, e);
+				: e ? (1 - (i - 88.2) / (44100 * (V * s))) ** ((.5 * Math.log(1e4 * e / 44100)) ** 2) * w(i, e) : 0;
 	}
-
-	// Play the note
-	A = new AudioContext,
+	copy(D);
+};
+clearSong=e=>{
+	song = [];
+};
+playSong=notes=>{
+	if (sound){
+		A.resume();
+		buildSong(notes);
 		m = A.createBuffer(1, 1e6, 44100),
-		m.getChannelData(0).set(D),
+		m.getChannelData(0).set(song),
 		s = A.createBufferSource(),
 		s.buffer = m,
 		s.connect(A.destination),
-		s.start()
-}
-
-var soundInterval = false;
-var currentSong = false;
-var currentNote = false;
-function playSong(song) {
-	if (sound) {
-		currentSong = song;
-		currentNote = 0;
-		soundInterval = setInterval(playNote, 100);
+		s.onended=clearSong(),
+		s.start();
 	}
-}
-function playNote(){
-	for(var i=0;i<currentSong.length;i++){
-		if (currentSong[i][currentNote]) {
-			var noteData = currentSong[i][currentNote].split("-");
-			n(notes[noteData[0]],noteData[1]);
+};
+buildSong=notes=>{
+	for(var i=0; i<notes.length; i++){
+		if(notes[i]) {
+			note = notes[i].split('-');
+			var s = note[2] ? note[2] : 2;
+			n(tones[note[0]],note[1]/5,s);
+		} else {
+			n(0,.1);
 		}
 	}
-	currentNote++;
-	if (currentNote > currentSong[0].length) clearInterval(soundInterval);
-}
+};
