@@ -306,6 +306,7 @@ play=()=>{
 			}
 
 			pointerup = e => {
+				A.resume();
 				touchinprogress = false;
 				e.preventDefault();
 				D.w = 0;
@@ -401,6 +402,7 @@ play=()=>{
 			addEventListener("touchcancel", pointercancel);
 			addEventListener("mousedown", pointerdown);
 			addEventListener("touchstart", pointerdown, {passive: false});
+			addEventListener("touchstart", function(){A.resume()});
 			addEventListener("mousemove", pointermove);
 			addEventListener("touchmove", pointermove, {passive: false});
 			addEventListener("mouseup", pointerup);
