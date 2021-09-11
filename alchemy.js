@@ -218,6 +218,7 @@ play=()=>{
 	finalize();
 	score();
 	close('home');
+	document.getElementById('soundbutton').onclick=null;
 	document.getElementById('playbutton').innerText = 'CONTINUE';
 	if (!listened) {
 		(D = e => {
