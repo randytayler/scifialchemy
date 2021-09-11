@@ -3,7 +3,7 @@ var hintInterval = false;
 var hintsEnabled = false;
 var touchinprogress=false;
 var listened=false;
-bugfix=v=>{
+bugfix=()=>{
 	var imgs = document.getElementsByTagName("img");
 	for (var i=0; i<imgs.length; i++){
 		if (imgs[i].parentNode.nodeName=='BODY'){
@@ -15,4 +15,9 @@ prepSlots();
 prepElements();
 prepIcons();
 setTimeout(prepHome,0);
-goHome();
+open('home');
+if (document.monetization) {
+	document.monetization.addEventListener('monetizationstart', () => {
+		hintTime = 10000;
+	})
+}

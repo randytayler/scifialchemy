@@ -1,4 +1,4 @@
-function n(e,x) {
+n=(e,x)=>{
 	for(V = x,
 		    b = (e, t, a, i) => Math.sin(e / t * 6.28 * a + i),
 		    w=(e,t)=>Math.sin(e / 44100 * t * 6.28 + b(e, 44100, t, 0) ** 2 + .75 * b(e, 44100, t, .25) + .1 * b(e, 44100, t, .5)),
@@ -21,19 +21,19 @@ function n(e,x) {
 		s.buffer = m,
 		s.connect(A.destination),
 		s.start()
-}
+};
 
 var soundInterval = false;
 var currentSong = false;
 var currentNote = false;
-function playSong(song) {
+playSong=s=>{
 	if (sound) {
-		currentSong = song;
+		currentSong = s;
 		currentNote = 0;
 		soundInterval = setInterval(playNote, 100);
 	}
-}
-function playNote(){
+};
+playNote=()=>{
 	for(var i=0;i<currentSong.length;i++){
 		if (currentSong[i][currentNote]) {
 			var noteData = currentSong[i][currentNote].split("-");
@@ -42,4 +42,4 @@ function playNote(){
 	}
 	currentNote++;
 	if (currentNote > currentSong[0].length) clearInterval(soundInterval);
-}
+};
