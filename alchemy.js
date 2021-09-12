@@ -199,8 +199,8 @@ score=()=>{
 };
 win=()=>{
 	document.getElementById('moves').innerText = "You found every element in " + moves + " moves.";
-	open('wincontent');
-	open('collection');
+	openm('wincontent');
+	openm('collection');
 };
 close=m=>{
 	document.getElementById(m).style.display="none";
@@ -210,7 +210,7 @@ clearForge=()=>{
 	var count = forgeElements.length;
 	for (var f=0; f<count; f++) forgeElements[0].remove();
 };
-open=m=>{
+openm=m=>{
 	document.getElementById(m).style.display="block";
 };
 play=()=>{
@@ -245,9 +245,9 @@ play=()=>{
 				}
 				D.scroll = e.target.parentElement.parentElement.scrollTop;
 				if (D.g && D.g.id == 'homebutton') {
-					open('home');
+					openm('home');
 				} else if (D.g && D.g.id == 'collectionbutton') {
-					open('collection');
+					openm('collection');
 				} else if (D.g && D.g.id == 'playbutton') {
 					play();
 				} else if (D.g && (D.g.id == 'newgamebutton' || D.g.id == 'newgamebutton2')) {
@@ -352,7 +352,7 @@ play=()=>{
 								document.getElementById('discoveryimage').className = 'focusin modal';
 								document.getElementById('discoveryimage').src = document.getElementById('i' + imgId).src;
 								document.getElementById('discoverydesc').innerHTML = elements[result[0]][3] ? elements[result[0]][3] : '';
-								open('modal');
+								openm('modal');
 								discoveries[result[0]] = true;
 								store('sfa_discoveries',discoveries);
 								if (elements[result[0]][4]) {
@@ -422,6 +422,7 @@ toggleSound=()=>{
 	}
 };
 newgame=()=>{
+	scrollUp();scrollUp();scrollUp();scrollUp();
 	localStorage.removeItem('sfa_discoveries');
 	localStorage.removeItem('sfa_moves');
 	discoveries = [];
@@ -440,16 +441,16 @@ showHint=()=>{
 	document.getElementById('discovery').innerText = '';
 	document.getElementById('discoveryimage').style.display = 'none';
 	document.getElementById('discoverydesc').innerHTML = findHint();
-	open('modal');
+	openm('modal');
 };
 upsell=()=>{
 	document.getElementById('discovery').innerText = 'Want more hints?';
 	document.getElementById('discoveryimage').style.display = 'none';
-	document.getElementById('discoverydesc').innerHTML = 'Hints recharge twice as fast for <a href="https://coil.com" class="outlink">web-monetized</a> players.<br><br>(Try the <a href="https://pumabrowser.com" class="outlink">Puma browser</a> on your mobile device.)';
-	open('modal');
+	document.getElementById('discoverydesc').innerHTML = 'Hints recharge twice as fast for <a href="https://coil.com" class="outlink" id="coil">web-monetized</a> players.<br><br>(Try the <a href="https://pumabrowser.com" class="outlink" id="puma">Puma browser</a> on your mobile device.)';
+	openm('modal');
 };
 go=href=>{
-	window.open(href, '_new');
+	window.open(href,'_new');
 };
 findHint=()=>{
 	var hints = [];
