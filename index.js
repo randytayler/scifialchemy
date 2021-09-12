@@ -15,7 +15,7 @@ prepSlots();
 prepElements();
 prepIcons();
 setTimeout(prepHome,0);
-open('home');
+openm('home');
 if (document.monetization) {
 	document.monetization.addEventListener('monetizationstart', () => {
 		hintTime = 10000;
